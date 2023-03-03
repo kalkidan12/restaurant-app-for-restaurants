@@ -84,9 +84,6 @@ class _ContinueREgisterState extends State<ContinueREgister> {
                           const SizedBox(
                             height: 20,
                           ),
-                          const SizedBox(
-                            height: 22,
-                          ),
                           CustomTextField(
                             keyboardType: TextInputType.text,
                             hintText: 'Password',
