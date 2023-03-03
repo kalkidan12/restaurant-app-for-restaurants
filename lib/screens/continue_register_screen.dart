@@ -13,9 +13,11 @@ class ContinueREgister extends StatefulWidget {
 }
 
 class _ContinueREgisterState extends State<ContinueREgister> {
-  TextEditingController _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,19 +33,19 @@ class _ContinueREgisterState extends State<ContinueREgister> {
           appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
-              centerTitle: false,
-              title: Text(
-                'Fast Track Restaurant',
+              title: const Text(
+                'Fast Track | Restaurant',
                 style: TextStyle(color: Colors.black),
               )),
           body: Stack(
             children: [
               Container(
                 height: height / 2 - 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/bg_banner.jpg"),
                     fit: BoxFit.cover,
+                    opacity: 0.7,
                   ),
                 ),
                 child: null /* add child content here */,
@@ -54,7 +56,7 @@ class _ContinueREgisterState extends State<ContinueREgister> {
                   width: width - 50,
                   height: 400,
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.grey),
                   child: Form(
                       key: _formKey,
@@ -63,54 +65,70 @@ class _ContinueREgisterState extends State<ContinueREgister> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text(
-                            'continue',
+                            'Continue registration',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          CustomTextField(
-                            keyboardType: TextInputType.text,
-                            hintText: 'Username',
-                          ),
-                          const SizedBox(
-                            height: 22,
-                          ),
-                          CustomTextField(
-                            keyboardType: TextInputType.text,
-                            hintText: 'email',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          CustomTextField(
-                            keyboardType: TextInputType.text,
-                            hintText: 'Password',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 120,
-                            child: CustomButton(
-                              onPressed: (() => {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RegisterScreen()))
-                                  }),
-                              child: Text(
-                                'Submit',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          Container(
+                            margin: const EdgeInsetsDirectional.only(top: 20),
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                              controller: nameController,
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 2, 10, 2),
+                                border: OutlineInputBorder(),
+                                labelText: 'Restaurant Name',
                               ),
                             ),
-                          )
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                              keyboardType: TextInputType.streetAddress,
+                              controller: nameController,
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 2, 10, 2),
+                                border: OutlineInputBorder(),
+                                labelText: 'Location',
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                              keyboardType: TextInputType.phone,
+                              controller: nameController,
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 2, 10, 2),
+                                border: OutlineInputBorder(),
+                                labelText: 'Phone number',
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            height: 35,
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            child: ElevatedButton(
+                              onPressed: (() => {
+                                    // print(nameController.text);
+                                    // print(passwordController.text);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegisterScreen(),
+                                      ),
+                                    ),
+                                  }),
+                              child: const Text(
+                                'Submit',
+                              ),
+                            ),
+                          ),
                         ],
                       )),
                 ),
