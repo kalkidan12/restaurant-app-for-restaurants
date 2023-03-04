@@ -53,3 +53,33 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+
+class MyTextField extends StatefulWidget {
+  const MyTextField({super.key, required this.controller});
+
+  final TextEditingController controller;
+
+  @override
+  State<MyTextField> createState() => _MyTextFieldState(controller);
+}
+
+class _MyTextFieldState extends State<MyTextField> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final TextEditingController controller;
+  _MyTextFieldState(this.controller);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: TextField(
+        controller: controller,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+          border: OutlineInputBorder(),
+          labelText: 'User Name',
+        ),
+      ),
+    );
+  }
+}
