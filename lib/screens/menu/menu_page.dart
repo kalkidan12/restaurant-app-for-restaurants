@@ -64,6 +64,11 @@ class _MenuListState extends State<MenuList> {
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
                   MenuListItem(),
+                  MenuListItem(),
+                  MenuListItem(),
+                  MenuListItem(),
+                  MenuListItem(),
+                  MenuListItem(),
                 ],
               ),
             ),

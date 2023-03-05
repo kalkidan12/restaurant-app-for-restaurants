@@ -56,6 +56,12 @@ class _TableListState extends State<TableList> {
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
                   TableListItem(),
+                  TableListItem(),
+                  TableListItem(),
+                  TableListItem(),
+                  TableListItem(),
+                  TableListItem(),
+                  TableListItem(),
                 ],
               ),
             ),
