@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:restaurantapp/api/config.dart';
-import 'package:restaurantapp/api/model/user_model.dart';
+import 'package:restaurantapp/api/models/user_model.dart';
 import 'package:restaurantapp/screens/continue_register_screen.dart';
 import 'package:restaurantapp/widgets/custom_button.dart';
 import 'package:restaurantapp/widgets/custom_container.dart';

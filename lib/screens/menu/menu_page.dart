@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:restaurantapp/api/controllers/menu_controllers.dart';
+import 'package:restaurantapp/api/models/menu_model.dart';
+import 'package:flutter/services.dart' as rootBundle;
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/darwer_widget.dart';
@@ -11,6 +16,8 @@ class MenuList extends StatefulWidget {
 }
 
 class _MenuListState extends State<MenuList> {
+// List menus = new MenuController().readJSon()
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -48,6 +55,7 @@ class _MenuListState extends State<MenuList> {
             const Divider(
               color: Colors.black87,
             ),
+            const SizedBox(height: 10),
             const SizedBox(height: 10),
             Container(
               height: MediaQuery.of(context).size.height - 200,
@@ -88,9 +96,6 @@ class _MenuListItemState extends State<MenuListItem> {
             color: Colors.black12,
           ),
         ),
-        // border: Border.all(
-        //   color: Colors.black,
-        // ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

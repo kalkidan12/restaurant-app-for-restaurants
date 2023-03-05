@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:restaurantapp/api/config.dart';
-import 'package:restaurantapp/api/model/user_model.dart';
+import 'package:restaurantapp/api/models/user_model.dart';
 import 'package:restaurantapp/screens/home_page.dart';
 import 'package:restaurantapp/screens/login_screen.dart';
 import 'package:restaurantapp/screens/register_screen.dart';
