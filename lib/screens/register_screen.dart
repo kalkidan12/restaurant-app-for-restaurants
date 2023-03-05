@@ -21,36 +21,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Size size = MediaQuery.of(context).size;
     var width = size.width;
     var height = size.height;
+    TextEditingController nameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Container(
         width: width,
         height: height,
         child: Scaffold(
-          backgroundColor: Color.fromARGB(255, 235, 235, 235),
+          backgroundColor: const Color.fromARGB(255, 235, 235, 235),
           resizeToAvoidBottomInset: false, //new line
 
           appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.white,
               centerTitle: false,
-              title: Text(
-                'Fast Track Restaurant',
+              title: const Text(
+                'Fast Track | Restaurant',
                 style: TextStyle(color: Colors.black),
               )),
           body: Stack(
             children: [
               Container(
                 height: height / 2 - 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/bg_banner.jpg"),
                     fit: BoxFit.cover,
+                    opacity: 0.7,
                   ),
                 ),
                 child: null /* add child content here */,
               ),
               Center(
                 child: CustomContainer(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   width: width - 50,
                   height: 400,
                   color: Colors.white,
@@ -67,53 +71,85 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          CustomTextField(
-                            keyboardType: TextInputType.text,
-                            hintText: 'Username',
-                          ),
-                          const SizedBox(
-                            height: 22,
-                          ),
-                          CustomTextField(
-                            keyboardType: TextInputType.text,
-                            hintText: 'email',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const SizedBox(
-                            height: 22,
-                          ),
-                          CustomTextField(
-                            keyboardType: TextInputType.text,
-                            hintText: 'Password',
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 120,
-                            child: CustomButton(
-                              onPressed: (() => {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ContinueREgister()))
-                                  }),
-                              child: Text(
-                                'Register',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          Container(
+                            margin: const EdgeInsetsDirectional.only(top: 20),
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                              controller: nameController,
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 2, 10, 2),
+                                border: OutlineInputBorder(),
+                                labelText: 'Username',
                               ),
                             ),
-                          )
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            child: TextField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: emailController,
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 2, 10, 2),
+                                border: OutlineInputBorder(),
+                                labelText: 'Email',
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: TextField(
+                              obscureText: true,
+                              controller: passwordController,
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(10, 2, 10, 2),
+                                border: OutlineInputBorder(),
+                                labelText: 'Password',
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            height: 35,
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                            child: ElevatedButton(
+                              onPressed: (() => {
+                                    // print(nameController.text);
+                                    // print(passwordController.text);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ContinueREgister(),
+                                      ),
+                                    ),
+                                  }),
+                              child: const Text(
+                                'Register',
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              const Text("Already have an account?"),
+                              TextButton(
+                                onPressed: () {
+                                  // already have an account
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      decoration: TextDecoration.underline),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       )),
                 ),
