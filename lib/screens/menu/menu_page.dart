@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../widgets/app_bar.dart';
+import '../../widgets/darwer_widget.dart';
+
 class MenuList extends StatefulWidget {
   const MenuList({super.key});
 
@@ -12,12 +15,10 @@ class _MenuListState extends State<MenuList> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Fast Track | Restaurant",
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
+      drawer: DrawerWidget(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50.0), // here the desired height
+        child: MyAppbar(),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -55,16 +56,9 @@ class _MenuListState extends State<MenuList> {
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
                   MenuListItem(),
-                  MenuListItem(),
-                  MenuListItem(),
-                  MenuListItem(),
-                  MenuListItem(),
-                  MenuListItem(),
                 ],
               ),
             ),
-            // MenuListItem(),
-            // MenuListItem(),
           ],
         ),
       ),
@@ -104,13 +98,9 @@ class _MenuListItemState extends State<MenuListItem> {
           Container(
             padding: EdgeInsets.all(10),
             child: ClipRRect(
-              // borderRadius: const BorderRadius.only(
-              //   topLeft: Radius.circular(20),
-              //   bottomLeft: Radius.circular(20),
-              // ),
               borderRadius: const BorderRadius.all(Radius.circular(50)),
-              child: Image.network(
-                'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+              child: Image.asset(
+                'assets/images/menu7.png',
                 fit: BoxFit.fill,
                 width: 100.0,
                 height: 100.0,
@@ -123,9 +113,6 @@ class _MenuListItemState extends State<MenuListItem> {
             padding: const EdgeInsets.only(left: 10),
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 243, 243, 243),
-              // border: Border.all(
-              //   color: Colors.black,
-              // ),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -143,37 +130,37 @@ class _MenuListItemState extends State<MenuListItem> {
                         style: TextStyle(
                             fontSize: 22.0,
                             color: Color(0xFF000000),
-                            fontWeight: FontWeight.w300,
+                            fontWeight: FontWeight.w400,
                             fontFamily: "Merriweather"),
                       ),
                       // SizedBox(height: 10,),
                       SizedBox(
                         width: 130,
                         child: Text(
-                          "This is a description description description description description.",
+                          "This is description",
                           softWrap: true,
                           style: TextStyle(
-                              fontSize: 14.0,
+                              fontSize: 15.0,
                               color: Color(0xFF000000),
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w400,
                               fontFamily: "Merriweather"),
                         ),
                       ),
                       Text(
                         "\$10.95",
                         style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 20.0,
                             color: Color(0xFF000000),
-                            fontWeight: FontWeight.w300,
+                            fontWeight: FontWeight.w400,
                             fontFamily: "Merriweather"),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 20),
                   child: Icon(
-                    Icons.edit_square,
+                    Icons.edit,
                     color: Colors.blue[400],
                     size: 30,
                   ),

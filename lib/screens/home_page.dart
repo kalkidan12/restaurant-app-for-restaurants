@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:restaurantapp/api/config.dart';
 import 'package:restaurantapp/screens/continue_register_screen.dart';
+import 'package:restaurantapp/screens/menu/menu_page.dart';
+import 'package:restaurantapp/widgets/app_bar.dart';
+import 'package:restaurantapp/widgets/darwer_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,39 +40,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     isIExist();
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          "Home Page",
-          style: TextStyle(
-            color: Colors.black87,
-          ),
-        ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              color: Colors.black87,
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
-      ),
-      backgroundColor: Colors.white70,
-      body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              print(
-                "ACCESS_TOKEN: " + LocalStorage('tokens').getItem('access'),
-              );
-            },
-            child: const Text("Clickme")),
-      ),
-    );
+    return Scaffold(backgroundColor: Colors.white70, body: MenuList());
   }
 }
