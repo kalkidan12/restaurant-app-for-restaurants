@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:restaurantapp/screens/login_screen.dart';
+import 'package:restaurantapp/screens/menu/menu_page.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations(
@@ -19,8 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: const Color.fromARGB(255, 216, 216, 216),),
-      home: const LoginScreen(),
+      theme: ThemeData(
+        primaryColor: const Color.fromARGB(255, 216, 216, 216),
+      ),
+      home: const MenuList(),
     );
   }
 }

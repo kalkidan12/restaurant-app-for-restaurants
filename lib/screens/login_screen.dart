@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   loginUser(data) async {
+    tokens.clear();
     try {
       var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.USER_LOGIN);
       var response = await http.post(url, body: data);

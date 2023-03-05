@@ -1,5 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
+import 'package:restaurantapp/api/config.dart';
+import 'package:restaurantapp/api/model/user_model.dart';
+import 'package:restaurantapp/screens/home_page.dart';
+import 'package:restaurantapp/screens/login_screen.dart';
 import 'package:restaurantapp/screens/register_screen.dart';
 import 'package:restaurantapp/widgets/custom_button.dart';
 import 'package:restaurantapp/widgets/custom_container.dart';
@@ -18,6 +27,96 @@ class _ContinueREgisterState extends State<ContinueREgister> {
   TextEditingController nameController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  String nameErrMsg = "";
+  String locationErrMsg = "";
+  String phoneErrMsg = "";
+  int user_id = 0;
+  bool _isProfileExist = false;
+  late UserContinueRegister model;
+
+  isIExist() async {
+    // print("THIS IS RUNNGING:");
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.USER_ACCOUNT);
+      var response = await http
+          .get(url, headers: {"Authorization": "JWT " + access_token});
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        // There is already a profile with this account
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  isProfileExist() async {
+    // print("THIS IS RUNNGING:");
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.USER_PROFILE);
+      var response = await http
+          .get(url, headers: {"Authorization": "JWT " + access_token});
+      if (response.statusCode == 404) {
+        setState(() {
+          _isProfileExist = false;
+        });
+      } else {
+        // There is already a profile with this account
+        setState(() {
+          _isProfileExist = true;
+        });
+      }
+    } catch (e) {
+      print(e);
+      setState(() {
+        _isProfileExist = false;
+      });
+    }
+  }
+
+  continueRegisterUser(data) async {
+    // print(data);
+    try {
+      var url =
+          Uri.parse(ApiConstants.BASE_URL + ApiConstants.RESTAURANT_REGISTER);
+      String access_token = LocalStorage('tokens').getItem('access');
+      var response = await http.post(url,
+          body: data, headers: {"Authorization": "JWT " + access_token});
+      // print(response.statusCode);
+      if (response.statusCode == 201) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      } else {
+        print(jsonDecode(response.body));
+
+        // setState(() {
+        //   nameErrMsg = (jsonDecode(response.body)['name'] != null)
+        //       ? jsonDecode(response.body)['name'][0]
+        //       : "";
+        //   locationErrMsg = (jsonDecode(response.body)['location'] != null)
+        //       ? jsonDecode(response.body)['location'][0]
+        //       : "";
+        //   phoneErrMsg = (jsonDecode(response.body)['phone_number'] != null)
+        //       ? jsonDecode(response.body)['phone_number'][0]
+        //       : "";
+        //   // passwordErrMsg = (jsonDecode(response.body)['user_type'] != null)
+        //   //     ? jsonDecode(response.body)['user_type'][0]
+        //   //     : "";
+        // });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -71,7 +170,7 @@ class _ContinueREgisterState extends State<ContinueREgister> {
                           ),
                           Container(
                             margin: const EdgeInsetsDirectional.only(top: 20),
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextField(
                               controller: nameController,
                               decoration: const InputDecoration(
@@ -82,11 +181,20 @@ class _ContinueREgisterState extends State<ContinueREgister> {
                               ),
                             ),
                           ),
+                          Text(
+                            nameErrMsg,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: .8,
+                            ),
+                          ),
                           Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextField(
                               keyboardType: TextInputType.streetAddress,
-                              controller: nameController,
+                              controller: locationController,
                               decoration: const InputDecoration(
                                 contentPadding:
                                     EdgeInsets.fromLTRB(10, 2, 10, 2),
@@ -95,11 +203,20 @@ class _ContinueREgisterState extends State<ContinueREgister> {
                               ),
                             ),
                           ),
+                          Text(
+                            locationErrMsg,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: .8,
+                            ),
+                          ),
                           Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: TextField(
                               keyboardType: TextInputType.phone,
-                              controller: nameController,
+                              controller: phoneController,
                               decoration: const InputDecoration(
                                 contentPadding:
                                     EdgeInsets.fromLTRB(10, 2, 10, 2),
@@ -108,22 +225,88 @@ class _ContinueREgisterState extends State<ContinueREgister> {
                               ),
                             ),
                           ),
+                          Text(
+                            phoneErrMsg,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: .8,
+                            ),
+                          ),
                           Container(
                             margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                             height: 35,
                             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                             child: ElevatedButton(
-                              onPressed: (() => {
-                                    // print(nameController.text);
-                                    // print(passwordController.text);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const RegisterScreen(),
-                                      ),
-                                    ),
-                                  }),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  final name = nameController.text;
+                                  final location = locationController.text;
+                                  final phone = phoneController.text;
+
+                                  if (name == '') {
+                                    setState(() {
+                                      nameErrMsg =
+                                          "Restaurnat name can not be empty";
+                                    });
+                                  } else {
+                                    setState(() {
+                                      nameErrMsg = "";
+                                    });
+                                  }
+
+                                  if (location == '') {
+                                    setState(() {
+                                      locationErrMsg =
+                                          "Emails can not be empty";
+                                    });
+                                  } else {
+                                    setState(() {
+                                      locationErrMsg = "";
+                                    });
+                                  }
+
+                                  if (phone == '') {
+                                    setState(() {
+                                      phoneErrMsg = "Password can not be empty";
+                                    });
+                                  } else {
+                                    setState(() {
+                                      phoneErrMsg = "";
+                                    });
+                                  }
+
+                                  // print(_isProfileExist);
+                                  isProfileExist();
+
+                                  if (_isProfileExist) {
+                                    setState(() {
+                                      phoneErrMsg =
+                                          "you already created your account.";
+
+                                      sleep(Duration(seconds: 3));
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomePage(),
+                                        ),
+                                      );
+                                    });
+                                  } else {
+                                    if (name != '' &&
+                                        location != '' &&
+                                        phone != '') {
+                                      continueRegisterUser({
+                                        "name": name,
+                                        "location": location,
+                                        "phone_number": phone,
+                                      });
+                                    }
+                                  }
+                                }
+                              },
                               child: const Text(
                                 'Submit',
                               ),
