@@ -1,82 +1,63 @@
 [
 	{
-		"id": 0,
-		"name": "NexMart - Casual Sneakers",
-		"category": "NOP",
-		"imageUrl": "https://m.media-amazon.com/images/I/81S-ekaE+vS._AC_UL320_.jpg",
-		"oldPrice": "1899",
-		"price": "799"
-	},
-	{
 		"id": 1,
-		"name": "Asian - Men Bouncer",
-		"category": "Men",
-		"oldPrice": "999",
-		"imageUrl": "https://m.media-amazon.com/images/I/61hMQOHmEIL._AC_UL320_.jpg",
-		"price": "719"
+		"tname": "Table 1",
+		"numSit": "8",
+		"description": "description 1",
+		"isVIP": true,
+		"image": "assets/images/menu7.png",
+		"price": "$39",
+		"availble": true
 	},
+
 	{
 		"id": 2,
-		"name": "Sparx",
-		"category": "Men",
-		"imageUrl": "https://m.media-amazon.com/images/I/81b9Eh286BL._AC_UL320_.jpg",
-		"oldPrice": "1349",
-		"price": "944"
+		"tname": "Table 2",
+		"numSit": "5",
+		"description": "description 2",
+		"isVIP": false,
+		"image": "assets/images/menu5.png",
+		"price": "$13",
+		"availble": true
 	},
 	{
 		"id": 3,
-		"name": "Ethics",
-		"category": "Men",
-		"imageUrl": "https://m.media-amazon.com/images/I/61U-R3-znNL._AC_UL320_.jpg",
-		"oldPrice": "999",
-		"price": "469"
+		"tname": "Table 3",
+		"numSit": "7",
+		"description": "description 3",
+		"isVIP": true,
+		"image": "assets/images/menu6.png",
+		"price": "$99",
+		"availble": false
 	},
 	{
 		"id": 4,
-		"name": "Sparx",
-		"category": "men",
-		"imageUrl": "https://m.media-amazon.com/images/I/81Ud8DjRbXL._AC_UL320_.jpg",
-		"oldPrice": "849",
-		"price": "760"
+		"tname": "Table 4",
+		"numSit": "3",
+		"description": "description 4",
+		"isVIP": true,
+		"image": "assets/images/menu4.png",
+		"price": "$69",
+		"availble": false
 	},
 	{
 		"id": 5,
-		"name": "Asian",
-		"category": "Men",
-		"imageUrl": "https://m.media-amazon.com/images/I/71M5-l4H-aL._AC_UL320_.jpg",
-		"oldPrice": "599",
-		"price": "449"
+		"tname": "Table 5",
+		"numSit": "5",
+		"description": "description 5",
+		"isVIP": false,
+		"image": "assets/images/menu5.png",
+		"price": "$199",
+		"availble": true
 	},
 	{
-		"id": 6,
-		"name": "Reebok",
-		"category": "Men",
-		"imageUrl": "https://m.media-amazon.com/images/I/71OEHq3M-9L._AC_UL320_.jpg",
-		"oldPrice": "2799",
-		"price": "1196"
-	},
-	{
-		"id": 7,
-		"name": "Sparx",
-		"category": "Men",
-		"imageUrl": "https://m.media-amazon.com/images/I/81iRr9yEzxL._AC_UL320_.jpg",
-		"oldPrice": "1049",
-		"price": "890"
-	},
-	{
-		"id": 8,
-		"name": "Reebok",
-		"category": "Men",
-		"imageUrl": "https://m.media-amazon.com/images/I/81iqNypAS-L._AC_UL320_.jpg",
-		"oldPrice": "3699",
-		"price": "999"
-	},
-	{
-		"id": 9,
-		"name": "Asian",
-		"category": "Men",
-		"imageUrl": "https://m.media-amazon.com/images/I/61Uu4ZpqCDL._AC_UL320_.jpg",
-		"oldPrice": "1499",
-		"price": "719"
+		"id": 0,
+		"tname": "Table 6",
+		"numSit": "6",
+		"description": "description 6",
+		"isVIP": true,
+		"image": "assets/images/menu6.png",
+		"price": "$19",
+		"availble": true
 	}
 ]
