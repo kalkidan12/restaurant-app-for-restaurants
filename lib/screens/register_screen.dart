@@ -11,6 +11,8 @@ import 'package:restaurantapp/widgets/custom_button.dart';
 import 'package:restaurantapp/widgets/custom_container.dart';
 import 'package:restaurantapp/widgets/text_field.dart';
 
+import '../widgets/app_bar.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -120,14 +122,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           backgroundColor: const Color.fromARGB(255, 235, 235, 235),
           resizeToAvoidBottomInset: false, //new line
 
-          appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              centerTitle: false,
-              title: const Text(
-                'Fast Track | Restaurant',
-                style: TextStyle(color: Colors.black),
-              )),
+          appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(50.0), // here the desired height
+            child: MyAppbar(),
+          ),
           body: Stack(
             children: [
               Container(

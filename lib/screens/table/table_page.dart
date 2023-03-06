@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurantapp/api/models/table_model.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'package:restaurantapp/api/models/table_model.dart';
+import 'package:restaurantapp/screens/table/table_detail.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/darwer_widget.dart';
@@ -49,8 +50,8 @@ class _TableListState extends State<TableList> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 "table",
                 style: TextStyle(
                     fontSize: 28.0,
@@ -58,11 +59,17 @@ class _TableListState extends State<TableList> {
                     fontWeight: FontWeight.w300,
                     fontFamily: "Merriweather"),
               ),
-              Icon(
-                Icons.add,
-                color: const Color(0xFF736c6c),
-                size: 42.0,
-              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TableDetail()));
+                },
+                icon: const Icon(
+                  Icons.add,
+                  color: const Color(0xFF736c6c),
+                  size: 42.0,
+                ),
+              )
             ],
           ),
           const Divider(
@@ -185,10 +192,19 @@ class _TableListState extends State<TableList> {
                                           Container(
                                             padding:
                                                 const EdgeInsets.only(left: 20),
-                                            child: Icon(
-                                              Icons.edit,
-                                              color: Colors.blue[400],
-                                              size: 30,
+                                            child: IconButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            TableDetail()));
+                                              },
+                                              icon: const Icon(
+                                                Icons.add,
+                                                color: const Color(0xFF736c6c),
+                                                size: 42.0,
+                                              ),
                                             ),
                                           )
                                         ],

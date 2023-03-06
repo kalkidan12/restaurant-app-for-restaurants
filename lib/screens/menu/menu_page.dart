@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:restaurantapp/api/models/menu_model.dart';
 import 'package:flutter/services.dart' as rootBundle;
+import 'package:restaurantapp/screens/menu/menu_detail.dart';
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/darwer_widget.dart';
@@ -36,8 +37,8 @@ class _MenuListState extends State<MenuList> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      drawer: DrawerWidget(),
-      appBar: PreferredSize(
+      drawer: const DrawerWidget(),
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(50.0), // here the desired height
         child: MyAppbar(),
       ),
@@ -48,8 +49,8 @@ class _MenuListState extends State<MenuList> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 "Menu",
                 style: TextStyle(
                     fontSize: 28.0,
@@ -57,11 +58,17 @@ class _MenuListState extends State<MenuList> {
                     fontWeight: FontWeight.w300,
                     fontFamily: "Merriweather"),
               ),
-              Icon(
-                Icons.add,
-                color: const Color(0xFF736c6c),
-                size: 42.0,
-              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MenuDetail()));
+                },
+                icon: const Icon(
+                  Icons.add,
+                  color: const Color(0xFF736c6c),
+                  size: 42.0,
+                ),
+              )
             ],
           ),
           const Divider(
@@ -95,11 +102,12 @@ class _MenuListState extends State<MenuList> {
                             child: Row(
                               children: [
                                 Container(
-                                  color: Color.fromARGB(255, 234, 234, 234),
-                                  padding: EdgeInsets.all(10),
+                                  color:
+                                      const Color.fromARGB(255, 234, 234, 234),
+                                  padding: const EdgeInsets.all(10),
                                   child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(50)),
                                     child: Image.asset(
                                       menus[index].image,
                                       fit: BoxFit.fill,
@@ -129,7 +137,7 @@ class _MenuListState extends State<MenuList> {
                                         children: [
                                           Text(
                                             menus[index].name,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 22.0,
                                                 color: Color(0xFF000000),
                                                 fontWeight: FontWeight.w400,
@@ -141,7 +149,7 @@ class _MenuListState extends State<MenuList> {
                                             child: Text(
                                               menus[index].description,
                                               softWrap: true,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 15.0,
                                                   color: Color(0xFF000000),
                                                   fontWeight: FontWeight.w400,
@@ -150,7 +158,7 @@ class _MenuListState extends State<MenuList> {
                                           ),
                                           Text(
                                             menus[index].price.toString(),
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 20.0,
                                                 color: Color(0xFF000000),
                                                 fontWeight: FontWeight.w400,
@@ -159,14 +167,22 @@ class _MenuListState extends State<MenuList> {
                                         ],
                                       ),
                                       Container(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Icon(
-                                          Icons.edit,
-                                          color: Colors.blue[400],
-                                          size: 30,
-                                        ),
-                                      )
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          MenuDetail())));
+                                            },
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Colors.blue[400],
+                                              size: 30,
+                                            ),
+                                          ))
                                     ],
                                   ),
                                 ),
