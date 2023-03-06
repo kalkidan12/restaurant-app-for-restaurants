@@ -9,6 +9,7 @@ import 'package:restaurantapp/api/models/user_model.dart';
 import 'package:restaurantapp/api/service/api_service.dart';
 import 'package:restaurantapp/screens/home_page.dart';
 import 'package:restaurantapp/screens/register_screen.dart';
+import 'package:restaurantapp/widgets/app_bar_for_auth.dart';
 import 'package:restaurantapp/widgets/custom_button.dart';
 import 'package:restaurantapp/widgets/custom_container.dart';
 import 'package:restaurantapp/widgets/text_field.dart';
@@ -89,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             appBar: const PreferredSize(
               preferredSize: Size.fromHeight(50.0), // here the desired height
-              child: MyAppbar(),
+              child: MyAppbarForAuthPage(),
             ),
             body: Stack(
               children: [

@@ -15,6 +15,7 @@ import 'package:restaurantapp/widgets/custom_container.dart';
 import 'package:restaurantapp/widgets/text_field.dart';
 
 import '../widgets/app_bar.dart';
+import '../widgets/app_bar_for_auth.dart';
 
 class ContinueREgister extends StatefulWidget {
   const ContinueREgister({super.key});
@@ -133,7 +134,7 @@ class _ContinueREgisterState extends State<ContinueREgister> {
 
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(50.0), // here the desired height
-            child: MyAppbar(),
+            child: MyAppbarForAuthPage(),
           ),
           body: Stack(
             children: [

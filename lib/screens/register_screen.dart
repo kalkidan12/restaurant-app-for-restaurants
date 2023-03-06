@@ -12,6 +12,7 @@ import 'package:restaurantapp/widgets/custom_container.dart';
 import 'package:restaurantapp/widgets/text_field.dart';
 
 import '../widgets/app_bar.dart';
+import '../widgets/app_bar_for_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -124,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
           appBar: const PreferredSize(
             preferredSize: Size.fromHeight(50.0), // here the desired height
-            child: MyAppbar(),
+            child: MyAppbarForAuthPage(),
           ),
           body: Stack(
             children: [
