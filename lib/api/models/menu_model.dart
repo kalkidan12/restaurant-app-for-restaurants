@@ -17,7 +17,7 @@ class MenuModel {
   String image;
   String name;
   String description;
-  int price;
+  String price;
 
   factory MenuModel.fromJson(Map<String, dynamic> json) => MenuModel(
         id: json["id"],
