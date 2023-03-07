@@ -54,14 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
           });
           tokens.setItem('access', model.access);
           tokens.setItem('refresh', model.refresh);
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
         });
+
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
       } else {
         // debugPrint(response.body);
         print(jsonDecode(response.body));

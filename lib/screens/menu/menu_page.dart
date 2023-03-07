@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:restaurantapp/api/config.dart';
 import 'package:restaurantapp/api/models/menu_model.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'package:restaurantapp/screens/menu/menu_detail.dart';
@@ -17,14 +20,33 @@ class MenuList extends StatefulWidget {
 
 class _MenuListState extends State<MenuList> {
   Future<List<MenuModel>> readJSon() async {
-    var jsondata = await DefaultAssetBundle.of(context)
-        .loadString("assets/data/menu.json");
+    // var jsondata = await DefaultAssetBundle.of(context)
+    //     .loadString("assets/data/menu.json");
 
-    //decode json data as list
-    List mapedData = json.decode(jsondata) as List<dynamic>;
-    List<MenuModel> menus =
-        mapedData.map((menu) => MenuModel.fromJson(menu)).toList();
-    return menus;
+    // //decode json data as list
+    // List mapedData = json.decode(jsondata) as List<dynamic>;
+    // List<MenuModel> menus =
+    //     mapedData.map((menu) => MenuModel.fromJson(menu)).toList();
+
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.MENUS);
+      var response = await http
+          .get(url, headers: {"Authorization": "JWT " + access_token});
+      if (response.statusCode == 200) {
+        List mapedData = json.decode(response.body) as List<dynamic>;
+        List<MenuModel> menus =
+            mapedData.map((menu) => MenuModel.fromJson(menu)).toList();
+        print(menus);
+        return menus;
+      } else {
+        // There is already a profile with this account
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
   @override
@@ -107,10 +129,11 @@ class _MenuListState extends State<MenuList> {
                                   padding: const EdgeInsets.all(10),
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(50)),
+                                      Radius.circular(50),
+                                    ),
                                     child: Image.asset(
-                                      menus[index].image,
-                                      fit: BoxFit.fill,
+                                      'assets/images/menu1.png',
+                                      fit: BoxFit.contain,
                                       width: 100.0,
                                       height: 100.0,
                                     ),
@@ -145,7 +168,7 @@ class _MenuListState extends State<MenuList> {
                                           ),
                                           // SizedBox(height: 10,),
                                           SizedBox(
-                                            width: 130,
+                                            width: 110,
                                             child: Text(
                                               menus[index].description,
                                               softWrap: true,
@@ -168,7 +191,7 @@ class _MenuListState extends State<MenuList> {
                                       ),
                                       Container(
                                           padding:
-                                              const EdgeInsets.only(left: 20),
+                                              const EdgeInsets.only(left: 10),
                                           child: IconButton(
                                             onPressed: () {
                                               Navigator.push(
