@@ -7,4 +7,5 @@ class ApiConstants {
   static String RESTAURANT_REGISTER = '/api/v1/fastrack/restaurant/';
   static String USER_PROFILE = '/api/v1/fastrack/restaurant/me/';
   static String MENUS = '/api/v1/fastrack/menu/';
+  static String TABLES = '/api/v1/fastrack/table/';
 }
