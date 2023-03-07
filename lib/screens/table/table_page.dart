@@ -201,9 +201,9 @@ class _TableListState extends State<TableList> {
                                                             TableDetail()));
                                               },
                                               icon: const Icon(
-                                                Icons.add,
-                                                color: const Color(0xFF736c6c),
-                                                size: 42.0,
+                                                Icons.edit,
+                                                color: Colors.blue,
+                                                size: 30.0,
                                               ),
                                             ),
                                           )

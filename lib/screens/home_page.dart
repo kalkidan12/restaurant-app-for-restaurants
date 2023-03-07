@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:restaurantapp/api/config.dart';
 import 'package:restaurantapp/screens/continue_register_screen.dart';
-import 'package:restaurantapp/screens/login_screen.dart';
 import 'package:restaurantapp/screens/menu/menu_page.dart';
 import 'package:restaurantapp/widgets/app_bar.dart';
 import 'package:restaurantapp/widgets/darwer_widget.dart';
@@ -41,6 +40,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     isIExist();
-    return Scaffold(backgroundColor: Colors.white70, body: LoginScreen());
+    return Scaffold(backgroundColor: Colors.white70, body: MenuList());
   }
 }
