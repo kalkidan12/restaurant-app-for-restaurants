@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' as rootBundle;
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/darwer_widget.dart';
@@ -49,16 +50,17 @@ class _MenuListState extends State<MenuList> {
               color: Colors.black87,
             ),
             const SizedBox(height: 10),
-            Container(
-              height: MediaQuery.of(context).size.height - 200,
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: <Widget>[
-                  MenuListItem(),
-                ],
-              ),
-            ),
+
+            // Container(
+            //   height: MediaQuery.of(context).size.height - 200,
+            //   child: ListView(
+            //     shrinkWrap: true,
+            //     scrollDirection: Axis.vertical,
+            //     children: <Widget>[
+            //       MenuListItem(),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -158,7 +160,7 @@ class _MenuListItemState extends State<MenuListItem> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 10),
                   child: Icon(
                     Icons.edit,
                     color: Colors.blue[400],

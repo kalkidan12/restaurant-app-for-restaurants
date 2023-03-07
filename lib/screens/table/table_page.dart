@@ -154,7 +154,7 @@ class _TableListItemState extends State<TableListItem> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Icon(
                         Icons.edit,
                         color: Colors.blue[400],

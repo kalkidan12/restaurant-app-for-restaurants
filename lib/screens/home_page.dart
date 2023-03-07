@@ -40,6 +40,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     isIExist();
-    return Scaffold(backgroundColor: Colors.white70, body: MenuList());
+    return Scaffold(backgroundColor: Colors.white, body: MenuList());
   }
 }
