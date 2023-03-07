@@ -1,37 +1,51 @@
 import 'dart:convert';
 
-MenuModel MenuModelFromJson(String str) => MenuModel.fromJson(json.decode(str));
+List<MenuModel> menuModelFromJson(String str) =>
+    List<MenuModel>.from(json.decode(str).map((x) => MenuModel.fromJson(x)));
 
-String MenuModelToJson(MenuModel data) => json.encode(data.toJson());
+String menuModelToJson(List<MenuModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class MenuModel {
   MenuModel({
-    required this.id,
-    required this.image,
+    required this.dishId,
     required this.name,
     required this.description,
     required this.price,
+    required this.isSpecial,
+    required this.createdOn,
+    required this.updatedOn,
+    required this.restaurant,
   });
 
-  String id;
-  String image;
+  int dishId;
   String name;
   String description;
   String price;
+  bool isSpecial;
+  DateTime createdOn;
+  DateTime updatedOn;
+  int restaurant;
 
   factory MenuModel.fromJson(Map<String, dynamic> json) => MenuModel(
-        id: json["id"],
-        image: json["image"],
+        dishId: json["dish_id"],
         name: json["name"],
         description: json["description"],
         price: json["price"],
+        isSpecial: json["isSpecial"],
+        createdOn: DateTime.parse(json["createdOn"]),
+        updatedOn: DateTime.parse(json["updatedOn"]),
+        restaurant: json["restaurant"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "image": image,
+        "dish_id": dishId,
         "name": name,
         "description": description,
         "price": price,
+        "isSpecial": isSpecial,
+        "createdOn": createdOn.toIso8601String(),
+        "updatedOn": updatedOn.toIso8601String(),
+        "restaurant": restaurant,
       };
 }

@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:restaurantapp/api/config.dart';
 import 'package:restaurantapp/api/models/table_model.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'package:restaurantapp/api/models/table_model.dart';
@@ -18,14 +21,33 @@ class TableList extends StatefulWidget {
 
 class _TableListState extends State<TableList> {
   Future<List<TableModel>> readJSon() async {
-    var jsondata = await DefaultAssetBundle.of(context)
-        .loadString("assets/data/table.json");
+    // var jsondata = await DefaultAssetBundle.of(context)
+    //     .loadString("assets/data/table.json");
 
     //decode json data as list
-    List mapedData = json.decode(jsondata) as List<dynamic>;
-    List<TableModel> tables =
-        mapedData.map((table) => TableModel.fromJson(table)).toList();
-    return tables;
+    // List mapedData = json.decode(jsondata) as List<dynamic>;
+    // List<TableModel> tables =
+    //     mapedData.map((table) => TableModel.fromJson(table)).toList();
+    // return tables;
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.TABLES);
+      var response = await http
+          .get(url, headers: {"Authorization": "JWT " + access_token});
+      if (response.statusCode == 200) {
+        List mapedData = json.decode(response.body) as List<dynamic>;
+        List<TableModel> tables =
+            mapedData.map((table) => TableModel.fromJson(table)).toList();
+        print(tables);
+        return tables;
+      } else {
+        // There is already a profile with this account
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
   @override
@@ -109,7 +131,7 @@ class _TableListState extends State<TableList> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(50)),
                                     child: Image.asset(
-                                      tables[index].image,
+                                      "assets/images/table_pl.png",
                                       fit: BoxFit.fill,
                                       width: 100.0,
                                       height: 100.0,
@@ -145,7 +167,7 @@ class _TableListState extends State<TableList> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Text(
-                                                  tables[index].tname,
+                                                  "Table #${tables[index].tableId}",
                                                   style: const TextStyle(
                                                       fontSize: 22.0,
                                                       color: Color(0xFF000000),
@@ -156,7 +178,7 @@ class _TableListState extends State<TableList> {
                                                 ),
                                                 // SizedBox(height: 10,),
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: 110,
                                                   child: Row(
                                                     children: [
                                                       const Text(
@@ -172,7 +194,7 @@ class _TableListState extends State<TableList> {
                                                                 "Merriweather"),
                                                       ),
                                                       Text(
-                                                        tables[index].numSit,
+                                                        "${tables[index].noOfSeats}",
                                                         softWrap: true,
                                                         style: const TextStyle(
                                                             fontSize: 15.0,
@@ -191,7 +213,7 @@ class _TableListState extends State<TableList> {
                                           ),
                                           Container(
                                             padding:
-                                                const EdgeInsets.only(left: 20),
+                                                const EdgeInsets.only(left: 10),
                                             child: IconButton(
                                               onPressed: () {
                                                 Navigator.push(
@@ -217,7 +239,7 @@ class _TableListState extends State<TableList> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           Text(
-                                            tables[index].price,
+                                            "\$${tables[index].price}",
                                             style: const TextStyle(
                                                 fontSize: 20.0,
                                                 color: Color(0xFF000000),
@@ -246,9 +268,9 @@ class _TableListState extends State<TableList> {
                                             "Available",
                                             style: TextStyle(
                                                 fontSize: 18.0,
-                                                color: tables[index].availble
-                                                    ? Colors.green
-                                                    : Colors.red,
+                                                color: tables[index].isBooked
+                                                    ? Colors.red
+                                                    : Colors.green,
                                                 fontWeight: FontWeight.w600,
                                                 fontFamily: "Merriweather"),
                                           ),

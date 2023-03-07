@@ -23,10 +23,11 @@ class _HomePageState extends State<HomePage> {
       var response = await http
           .get(url, headers: {"Authorization": "JWT " + access_token});
       if (response.statusCode == 404) {
+        // ignore: use_build_context_synchronously
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ContinueREgister(),
+            builder: (context) => const HomePage(),
           ),
         );
       } else {
