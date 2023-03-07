@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:restaurantapp/api/config.dart';
-import 'package:restaurantapp/api/model/user_model.dart';
+import 'package:restaurantapp/api/models/user_model.dart';
 
 class ApiService {
   Future<UserLogin> loginUser() async {

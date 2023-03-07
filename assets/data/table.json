@@ -1,0 +1,63 @@
+[
+	{
+		"id": 1,
+		"tname": "Table 1",
+		"numSit": "8",
+		"description": "description 1",
+		"isVIP": true,
+		"image": "assets/images/menu7.png",
+		"price": "$39",
+		"availble": true
+	},
+
+	{
+		"id": 2,
+		"tname": "Table 2",
+		"numSit": "5",
+		"description": "description 2",
+		"isVIP": false,
+		"image": "assets/images/menu5.png",
+		"price": "$13",
+		"availble": true
+	},
+	{
+		"id": 3,
+		"tname": "Table 3",
+		"numSit": "7",
+		"description": "description 3",
+		"isVIP": true,
+		"image": "assets/images/menu6.png",
+		"price": "$99",
+		"availble": false
+	},
+	{
+		"id": 4,
+		"tname": "Table 4",
+		"numSit": "3",
+		"description": "description 4",
+		"isVIP": true,
+		"image": "assets/images/menu4.png",
+		"price": "$69",
+		"availble": false
+	},
+	{
+		"id": 5,
+		"tname": "Table 5",
+		"numSit": "5",
+		"description": "description 5",
+		"isVIP": false,
+		"image": "assets/images/menu5.png",
+		"price": "$199",
+		"availble": true
+	},
+	{
+		"id": 0,
+		"tname": "Table 6",
+		"numSit": "6",
+		"description": "description 6",
+		"isVIP": true,
+		"image": "assets/images/menu6.png",
+		"price": "$19",
+		"availble": true
+	}
+]

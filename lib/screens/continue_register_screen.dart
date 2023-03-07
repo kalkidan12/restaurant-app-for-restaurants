@@ -6,13 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:restaurantapp/api/config.dart';
-import 'package:restaurantapp/api/model/user_model.dart';
+import 'package:restaurantapp/api/models/user_model.dart';
 import 'package:restaurantapp/screens/home_page.dart';
 import 'package:restaurantapp/screens/login_screen.dart';
 import 'package:restaurantapp/screens/register_screen.dart';
 import 'package:restaurantapp/widgets/custom_button.dart';
 import 'package:restaurantapp/widgets/custom_container.dart';
 import 'package:restaurantapp/widgets/text_field.dart';
+
+import '../widgets/app_bar.dart';
+import '../widgets/app_bar_for_auth.dart';
 
 class ContinueREgister extends StatefulWidget {
   const ContinueREgister({super.key});
@@ -129,13 +132,10 @@ class _ContinueREgisterState extends State<ContinueREgister> {
           backgroundColor: Color.fromARGB(255, 235, 235, 235),
           resizeToAvoidBottomInset: false, //new line
 
-          appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              title: const Text(
-                'Fast Track | Restaurant',
-                style: TextStyle(color: Colors.black),
-              )),
+          appBar: const PreferredSize(
+            preferredSize: Size.fromHeight(50.0), // here the desired height
+            child: MyAppbarForAuthPage(),
+          ),
           body: Stack(
             children: [
               Container(
