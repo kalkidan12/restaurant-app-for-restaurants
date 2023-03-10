@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurantapp/api/config.dart';
 import 'package:restaurantapp/api/models/menu_model.dart';
 import 'package:flutter/services.dart' as rootBundle;
 
@@ -9,30 +12,154 @@ import '../../widgets/darwer_widget.dart';
 import 'menu_page.dart';
 
 class MenuDetail extends StatefulWidget {
-  const MenuDetail({super.key});
+  final int id;
+
+  const MenuDetail({Key? key, required this.id}) : super(key: key);
 
   @override
   State<MenuDetail> createState() => _MenuDetailState();
 }
 
 class _MenuDetailState extends State<MenuDetail> {
-  Future<List<MenuModel>> readJSon() async {
-    var jsondata = await DefaultAssetBundle.of(context)
-        .loadString("assets/data/menu.json");
-
-    //decode json data as list
-    List mapedData = json.decode(jsondata) as List<dynamic>;
-    List<MenuModel> menus =
-        mapedData.map((menu) => MenuModel.fromJson(menu)).toList();
-    return menus;
-  }
-
   final _menuFormKey = GlobalKey<FormState>();
+  late TextEditingController _dishNameController;
+  late TextEditingController _descriptionController;
+  late TextEditingController _priceController;
+  late DateTime _createdDate;
+  late bool _isSpecial;
+  late String _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    readJSon();
+    _errorMessage = "";
+    _dishNameController = TextEditingController();
+    _descriptionController = TextEditingController();
+    _priceController = TextEditingController();
+    _isSpecial = false;
+    _createdDate = DateTime.now();
+    if (widget.id != 0) {
+      fetchMenuItem(widget.id);
+    }
+  }
+
+  formSubmitted(dishName, dishDescription, dishPrice, isSpecial) {
+    final data = <String, dynamic>{
+      'name': dishName,
+      'description': dishDescription,
+      'price': dishPrice,
+      'isSpecial': isSpecial.toString(),
+      'restaurant':
+          LocalStorage('restaurant').getItem('restaurant_id').toString()
+    };
+
+    if (widget.id == 0) {
+      createMenuItem(data);
+    } else {
+      updateMenuItem(widget.id, data);
+    }
+  }
+
+  Future<void> fetchMenuItem(int id) async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      final response = await http.get(
+          Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}${id}/'),
+          headers: {"Authorization": "JWT " + access_token});
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          _dishNameController.text = data['name'];
+          _descriptionController.text = data['description'];
+          _priceController.text = data['price'];
+          _isSpecial = data['isSpecial'];
+          _createdDate = DateTime.parse(data['createdOn']).toLocal();
+        });
+        print("=================================================");
+        // print(data);
+      } else {
+        setState(() {
+          _errorMessage = "Menu item not found.";
+        });
+      }
+    } catch (error) {
+      setState(() {
+        _errorMessage = "Error fetching menu item.";
+      });
+    }
+  }
+
+  Future<void> createMenuItem(data) async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}');
+      final response = await http.post(
+        url,
+        headers: {"Authorization": "JWT " + access_token},
+        body: data,
+      );
+      if (response.statusCode == 201) {
+        Navigator.of(context).pop();
+      } else {
+        setState(() {
+          _errorMessage = "Error creating menu item. please try again.";
+        });
+        print(_errorMessage);
+      }
+    } catch (error) {
+      setState(() {
+        _errorMessage = "Error creating menu item. please try again.";
+      });
+      print(_errorMessage);
+    }
+  }
+
+  Future<void> updateMenuItem(int id, data) async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}$id/');
+      final response = await http.put(
+        url,
+        headers: {"Authorization": "JWT " + access_token},
+        body: data,
+      );
+      if (response.statusCode == 200) {
+        Navigator.of(context).pop();
+      } else {
+        setState(() {
+          _errorMessage = "Error updating menu item. please try again.";
+        });
+        print(jsonDecode(response.body));
+      }
+    } catch (error) {
+      setState(() {
+        _errorMessage = "Error updating menu item. please try again.";
+      });
+      print(error);
+    }
+  }
+
+  Future<void> deleteMenuItem() async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse(
+          '${ApiConstants.BASE_URL}${ApiConstants.MENUS}${widget.id}/');
+      final response = await http
+          .delete(url, headers: {"Authorization": "JWT " + access_token});
+      if (response.statusCode == 204) {
+        Navigator.of(context).pop();
+      } else {
+        setState(() {
+          _errorMessage = "Error removing menu item. please try again.";
+        });
+        print(_errorMessage);
+      }
+    } catch (error) {
+      setState(() {
+        _errorMessage = "Error removing menu item. please try again.";
+      });
+      print(_errorMessage);
+    }
   }
 
   @override
@@ -64,9 +191,9 @@ class _MenuDetailState extends State<MenuDetail> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Menu > Dish 1",
-                style: TextStyle(
+              Text(
+                "Menu > ${_dishNameController.text}",
+                style: const TextStyle(
                     fontSize: 25.0,
                     color: Color(0xFF000000),
                     fontWeight: FontWeight.w300,
@@ -74,7 +201,7 @@ class _MenuDetailState extends State<MenuDetail> {
               ),
               IconButton(
                 onPressed: () {
-                  print('deleted');
+                  deleteMenuItem();
                 },
                 icon: const Icon(
                   Icons.delete,
@@ -119,8 +246,8 @@ class _MenuDetailState extends State<MenuDetail> {
                           child: Image.asset(
                             'assets/images/menu7.png',
                             fit: BoxFit.fill,
-                            width: 115.0,
-                            height: 117.0,
+                            width: 100.0,
+                            height: 100.0,
                           ),
                         ),
                       ),
@@ -128,19 +255,23 @@ class _MenuDetailState extends State<MenuDetail> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('20223-02-28 2:00 PM'),
+                            // 20223-02-28 2:00 PM
+                            Text(
+                                '${_createdDate.year}-${_createdDate.month}-${_createdDate.day} at ${_createdDate.hour}:${_createdDate.minute} ${_createdDate.hour < 12 ? "AM" : "PM"}'),
                             const SizedBox(
                               height: 5,
                             ),
                             Container(
                                 color: Colors.white,
-                                width: 202,
+                                width: 190,
                                 child: TextFormField(
+                                  controller: _dishNameController,
                                   textAlignVertical: TextAlignVertical.center,
                                   decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
                                           vertical: 5, horizontal: 10),
-                                      hintText: 'Dish Name',
+                                      hintText:
+                                          '${_dishNameController.text == "" ? "Dish name" : _dishNameController.text}',
                                       border: OutlineInputBorder()),
                                 )),
                             const SizedBox(
@@ -151,23 +282,27 @@ class _MenuDetailState extends State<MenuDetail> {
                               children: [
                                 Container(
                                     color: Colors.white,
-                                    width: 100,
+                                    width: 80,
                                     child: TextFormField(
+                                      controller: _priceController,
                                       textAlignVertical:
                                           TextAlignVertical.center,
                                       decoration: InputDecoration(
                                           contentPadding: EdgeInsets.symmetric(
                                               vertical: 5, horizontal: 10),
-                                          hintText: '\$14',
+                                          hintText:
+                                              '${_priceController.text == "" ? "\$0.0" : _priceController.text}',
                                           border: OutlineInputBorder()),
                                     )),
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                Text('Special'),
+                                const Text('Special'),
                                 Checkbox(
-                                    value: true,
-                                    onChanged: ((value) => setState(() {})))
+                                    value: _isSpecial,
+                                    onChanged: ((value) => setState(() {
+                                          _isSpecial = value!;
+                                        })))
                               ],
                             )
                           ],
@@ -186,13 +321,23 @@ class _MenuDetailState extends State<MenuDetail> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextFormField(
+                      controller: _descriptionController,
                       minLines: 6,
                       maxLines: 7,
                       decoration: InputDecoration(
-                          hintText: 'Description',
-                          border: OutlineInputBorder()),
+                          hintText: _descriptionController.text == ""
+                              ? "Menu Description"
+                              : _descriptionController.text,
+                          border: const OutlineInputBorder()),
                     ),
                   ),
+                  Text(_errorMessage,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: .8,
+                      )),
                   const SizedBox(
                     height: 20,
                   ),
@@ -200,7 +345,16 @@ class _MenuDetailState extends State<MenuDetail> {
                       width: 200,
                       height: 40,
                       child: ElevatedButton(
-                          onPressed: () {}, child: Text('Submit')))
+                          onPressed: () {
+                            final dishName = _dishNameController.text;
+                            final dishPrice = _priceController.text;
+                            final isSpecial = _isSpecial;
+                            final dishDescription = _descriptionController.text;
+
+                            formSubmitted(dishName, dishDescription, dishPrice,
+                                isSpecial);
+                          },
+                          child: const Text('Submit')))
                 ],
               ),
             ),
