@@ -69,7 +69,7 @@ class _MenuListState extends State<MenuList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "Menu",
+                "Menus",
                 style: TextStyle(
                     fontSize: 28.0,
                     color: Color(0xFF000000),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:restaurantapp/screens/inventory/inventory_page.dart';
 import 'package:restaurantapp/screens/menu/menu_page.dart';
 import 'package:restaurantapp/screens/order/order_page.dart';
 
@@ -41,7 +42,7 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.restaurant_menu,
               size: 30,
             ),
@@ -55,7 +56,7 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.table_bar,
               size: 30,
             ),
@@ -92,7 +93,8 @@ class DrawerWidget extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InventoryList()));
             },
           ),
           ListTile(

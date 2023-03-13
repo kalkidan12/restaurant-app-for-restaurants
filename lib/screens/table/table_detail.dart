@@ -58,7 +58,7 @@ class _TableDetailState extends State<TableDetail> {
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,11 +86,11 @@ class _TableDetailState extends State<TableDetail> {
           const Divider(
             color: Colors.black87,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width - 20,
-            height: MediaQuery.of(context).size.height - 300,
+            // height: MediaQuery.of(context).size.height - 300,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 231, 231, 231),
               boxShadow: List.filled(
@@ -101,7 +101,7 @@ class _TableDetailState extends State<TableDetail> {
                   color: Colors.black12,
                 ),
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Form(
               key: _tableFormKey,
@@ -117,27 +117,29 @@ class _TableDetailState extends State<TableDetail> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(50)),
                           child: Image.asset(
-                            'assets/images/table.png',
+                            'assets/images/table.jpg',
                             fit: BoxFit.fill,
-                            width: 115.0,
-                            height: 117.0,
+                            width: 100.0,
+                            height: 100.0,
                           ),
                         ),
                       ),
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // Text('20223-02-28 2:00 PM'),
-                            // const SizedBox(
-                            //   height: 5,
-                            // ),
+                            Text('20223-02-28 2:00 PM',
+                                textAlign: TextAlign.end),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Container(
                                 color: Colors.white,
-                                width: 202,
+                                width: 190,
+                                margin: EdgeInsets.only(left: 20),
                                 child: TextFormField(
                                   textAlignVertical: TextAlignVertical.center,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
                                           vertical: 5, horizontal: 10),
                                       hintText: 'Table 1',
@@ -147,24 +149,24 @@ class _TableDetailState extends State<TableDetail> {
                               height: 5,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
                                     color: Colors.white,
-                                    width: 125,
+                                    width: 80,
                                     child: TextFormField(
                                       textAlignVertical:
                                           TextAlignVertical.center,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                           contentPadding: EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
+                                              vertical: 2, horizontal: 10),
                                           hintText: '\$14',
                                           border: OutlineInputBorder()),
                                     )),
                                 const SizedBox(
                                   width: 4,
                                 ),
-                                Text('VIP'),
+                                const Text('VIP'),
                                 Checkbox(
                                     value: true,
                                     onChanged: ((value) => setState(() {})))
@@ -176,7 +178,7 @@ class _TableDetailState extends State<TableDetail> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 10,
                   ),
                   Container(
                     padding: const EdgeInsets.only(
@@ -198,7 +200,7 @@ class _TableDetailState extends State<TableDetail> {
                           value: value,
                           child: Text(
                             value,
-                            style: TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: 14),
                           ),
                         );
                       }).toList(),
@@ -211,11 +213,10 @@ class _TableDetailState extends State<TableDetail> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Container(
-                    padding: const EdgeInsets.only(
-                        left: 10, top: 5, bottom: 5, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     width: MediaQuery.of(context).size.width - 30,
                     decoration: BoxDecoration(
                       color: Colors.white70,
@@ -226,7 +227,7 @@ class _TableDetailState extends State<TableDetail> {
                       children: [
                         Text(
                           'Number of sits ',
-                          style: TextStyle(fontSize: 17),
+                          style: TextStyle(fontSize: 14),
                         ),
                         Container(
                             color: Colors.white,
@@ -235,7 +236,7 @@ class _TableDetailState extends State<TableDetail> {
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 5),
+                                      vertical: 3, horizontal: 5),
                                   hintText: '4',
                                   border: OutlineInputBorder()),
                             )),
@@ -243,56 +244,56 @@ class _TableDetailState extends State<TableDetail> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width - 30,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Booked By ',
-                          style: TextStyle(fontSize: 17),
-                        ),
-                        Text(
-                          'Zelalem Getachew ',
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width - 30,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Created On ',
-                          style: TextStyle(fontSize: 17),
-                        ),
-                        Text(
-                          '2023-0208 2:00 PM ',
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.all(15),
+                  //   width: MediaQuery.of(context).size.width - 30,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white70,
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         'Booked By ',
+                  //         style: TextStyle(fontSize: 17),
+                  //       ),
+                  //       Text(
+                  //         'Zelalem Getachew ',
+                  //         style: TextStyle(fontSize: 17),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Container(
+                  //   padding: const EdgeInsets.all(15),
+                  //   width: MediaQuery.of(context).size.width - 30,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white70,
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         'Created On ',
+                  //         style: TextStyle(fontSize: 17),
+                  //       ),
+                  //       Text(
+                  //         '2023-0208 2:00 PM ',
+                  //         style: TextStyle(fontSize: 17),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 15,
+                  // ),
                   Container(
                       width: 200,
                       height: 40,

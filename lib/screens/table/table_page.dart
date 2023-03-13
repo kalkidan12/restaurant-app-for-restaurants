@@ -20,15 +20,8 @@ class TableList extends StatefulWidget {
 }
 
 class _TableListState extends State<TableList> {
+  bool _isLoading = false;
   Future<List<TableModel>> readJSon() async {
-    // var jsondata = await DefaultAssetBundle.of(context)
-    //     .loadString("assets/data/table.json");
-
-    //decode json data as list
-    // List mapedData = json.decode(jsondata) as List<dynamic>;
-    // List<TableModel> tables =
-    //     mapedData.map((table) => TableModel.fromJson(table)).toList();
-    // return tables;
     try {
       String access_token = LocalStorage('tokens').getItem('access');
       var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.TABLES);
@@ -74,7 +67,7 @@ class _TableListState extends State<TableList> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                "table",
+                "Tables",
                 style: TextStyle(
                     fontSize: 28.0,
                     color: Color(0xFF000000),
@@ -98,200 +91,222 @@ class _TableListState extends State<TableList> {
             color: Colors.black87,
           ),
           const SizedBox(height: 10),
-          Container(
-              height: MediaQuery.of(context).size.height - 200,
-              child: FutureBuilder<List<TableModel>>(
-                future: readJSon(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    List<TableModel> tables = snapshot.data!;
-                    return ListView.builder(
-                        itemCount: tables.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 20),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 241, 241, 241),
-                              boxShadow: List.filled(
-                                3,
-                                const BoxShadow(
-                                  blurRadius: 4,
-                                  blurStyle: BlurStyle.outer,
-                                  color: Colors.black12,
+          RefreshIndicator(
+            onRefresh: () async {
+              if (!_isLoading) {
+                // check if an API request is not already in progress
+                setState(() {
+                  _isLoading =
+                      true; // set the flag to true before starting the API request
+                });
+                await readJSon();
+                setState(() {
+                  _isLoading =
+                      false; // set the flag to false after the API request is completed
+                });
+              }
+            },
+            child: Container(
+                height: MediaQuery.of(context).size.height - 200,
+                child: FutureBuilder<List<TableModel>>(
+                  future: readJSon(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<TableModel> tables = snapshot.data!;
+                      return ListView.builder(
+                          itemCount: tables.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 20),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 241, 241, 241),
+                                boxShadow: List.filled(
+                                  3,
+                                  const BoxShadow(
+                                    blurRadius: 4,
+                                    blurStyle: BlurStyle.outer,
+                                    color: Colors.black12,
+                                  ),
                                 ),
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  color: Color.fromARGB(255, 234, 234, 234),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(50)),
-                                    child: Image.asset(
-                                      "assets/images/table_pl.png",
-                                      fit: BoxFit.fill,
-                                      width: 100.0,
-                                      height: 100.0,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    color: Color.fromARGB(255, 234, 234, 234),
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(50)),
+                                      child: Image.asset(
+                                        "assets/images/table.jpg",
+                                        fit: BoxFit.fill,
+                                        width: 100.0,
+                                        height: 100.0,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  height: 120,
-                                  // width: MediaQuery.of(context).size.width - 174,
-                                  padding: const EdgeInsets.only(left: 10),
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 243, 243, 243),
-                                    // border: Border.all(
-                                    //   color: Colors.black,
-                                    // ),
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(20),
-                                      bottomRight: Radius.circular(20),
+                                  Container(
+                                    height: 120,
+                                    // width: MediaQuery.of(context).size.width - 174,
+                                    padding: const EdgeInsets.only(left: 10),
+                                    decoration: const BoxDecoration(
+                                      color: Color.fromARGB(255, 243, 243, 243),
+                                      // border: Border.all(
+                                      //   color: Colors.black,
+                                      // ),
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
                                     ),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Text(
-                                                  "Table #${tables[index].tableId}",
-                                                  style: const TextStyle(
-                                                      fontSize: 22.0,
-                                                      color: Color(0xFF000000),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily:
-                                                          "Merriweather"),
-                                                ),
-                                                // SizedBox(height: 10,),
-                                                SizedBox(
-                                                  width: 110,
-                                                  child: Row(
-                                                    children: [
-                                                      const Text(
-                                                        "Number of sits: ",
-                                                        softWrap: true,
-                                                        style: TextStyle(
-                                                            fontSize: 15.0,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontFamily:
-                                                                "Merriweather"),
-                                                      ),
-                                                      Text(
-                                                        "${tables[index].noOfSeats}",
-                                                        softWrap: true,
-                                                        style: const TextStyle(
-                                                            fontSize: 15.0,
-                                                            color: Color(
-                                                                0xFF000000),
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontFamily:
-                                                                "Merriweather"),
-                                                      ),
-                                                    ],
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Text(
+                                                    "Table #${tables[index].tableId}",
+                                                    style: const TextStyle(
+                                                        fontSize: 22.0,
+                                                        color:
+                                                            Color(0xFF000000),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily:
+                                                            "Merriweather"),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: IconButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            TableDetail()));
-                                              },
-                                              icon: const Icon(
-                                                Icons.edit,
-                                                color: Colors.blue,
-                                                size: 30.0,
+                                                  // SizedBox(height: 10,),
+                                                  SizedBox(
+                                                    width: 110,
+                                                    child: Row(
+                                                      children: [
+                                                        const Text(
+                                                          "Number of sits: ",
+                                                          softWrap: true,
+                                                          style: TextStyle(
+                                                              fontSize: 15.0,
+                                                              color: Color(
+                                                                  0xFF000000),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  "Merriweather"),
+                                                        ),
+                                                        Text(
+                                                          "${tables[index].noOfSeats}",
+                                                          softWrap: true,
+                                                          style: const TextStyle(
+                                                              fontSize: 15.0,
+                                                              color: Color(
+                                                                  0xFF000000),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  "Merriweather"),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            "\$${tables[index].price}",
-                                            style: const TextStyle(
-                                                fontSize: 20.0,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "Merriweather"),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "VIP",
-                                            style: TextStyle(
-                                                decoration: tables[index].isVip
-                                                    ? TextDecoration.none
-                                                    : TextDecoration
-                                                        .lineThrough,
-                                                fontSize: 18.0,
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: "Merriweather"),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Available",
-                                            style: TextStyle(
-                                                fontSize: 18.0,
-                                                color: tables[index].isBooked
-                                                    ? Colors.red
-                                                    : Colors.green,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: "Merriweather"),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            Container(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              TableDetail()));
+                                                },
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  color: Colors.blue,
+                                                  size: 30.0,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              "\$${tables[index].price}",
+                                              style: const TextStyle(
+                                                  fontSize: 20.0,
+                                                  color: Color(0xFF000000),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "Merriweather"),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "VIP",
+                                              style: TextStyle(
+                                                  decoration:
+                                                      tables[index].isVip
+                                                          ? TextDecoration.none
+                                                          : TextDecoration
+                                                              .lineThrough,
+                                                  fontSize: 18.0,
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Merriweather"),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "Available",
+                                              style: TextStyle(
+                                                  fontSize: 18.0,
+                                                  color: tables[index].isBooked
+                                                      ? Colors.red
+                                                      : Colors.green,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: "Merriweather"),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                  } else {
-                    return Center(
-                        child: Container(
-                            width: 40,
-                            height: 40,
-                            child: const CircularProgressIndicator()));
-                  }
-                },
-              )),
+                                ],
+                              ),
+                            );
+                          });
+                    } else {
+                      return Center(
+                          child: Container(
+                              width: 40,
+                              height: 40,
+                              child: const CircularProgressIndicator()));
+                    }
+                  },
+                )),
+          ),
         ]),
       ),
     );
