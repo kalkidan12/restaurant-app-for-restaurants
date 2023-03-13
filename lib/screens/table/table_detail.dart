@@ -1,15 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:http/http.dart' as http;
 import 'package:restaurantapp/api/models/menu_model.dart';
 import 'package:flutter/services.dart' as rootBundle;
+import 'package:restaurantapp/api/models/table_model.dart';
 import 'package:restaurantapp/screens/table/table_page.dart';
 
+import '../../api/config.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/darwer_widget.dart';
 
 class TableDetail extends StatefulWidget {
-  const TableDetail({super.key});
+  final TableModel table;
+  TableDetail({required this.table});
 
   @override
   State<TableDetail> createState() => _TableDetailState();
@@ -19,21 +24,169 @@ final _tableFormKey = GlobalKey<FormState>();
 String dropdownValue = 'Available';
 
 class _TableDetailState extends State<TableDetail> {
-  Future<List<MenuModel>> readJSon() async {
-    var jsondata = await DefaultAssetBundle.of(context)
-        .loadString("assets/data/menu.json");
+  final GlobalKey<FormState> _tableFormKey = GlobalKey<FormState>();
 
-    //decode json data as list
-    List mapedData = json.decode(jsondata) as List<dynamic>;
-    List<MenuModel> menus =
-        mapedData.map((menu) => MenuModel.fromJson(menu)).toList();
-    return menus;
-  }
+  late int tableId = 0;
+  late int noOfSeats = 1;
+  late bool isVip = false;
+  late String price = '0.0';
+  late bool isBooked = false;
+  late int restaurant;
 
   @override
   void initState() {
     super.initState();
-    readJSon();
+    dropdownValue = widget.table.isBooked ? 'Unavailable' : 'Available';
+    if (widget.table.tableId != 0) {
+      tableId = widget.table.tableId;
+      noOfSeats = widget.table.noOfSeats;
+      isVip = widget.table.isVip;
+      price = widget.table.price;
+      isBooked = widget.table.isBooked;
+      restaurant = widget.table.restaurant;
+    }
+  }
+
+  void _submitForm() {
+    if (noOfSeats < 1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid number of sits.')),
+      );
+
+      return;
+    }
+    if (price == '0.0') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid price.')),
+      );
+
+      return;
+    }
+
+    if (price == '0.0') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid price.')),
+      );
+
+      return;
+    }
+    final data = {
+      "no_of_seats": noOfSeats.toString(),
+      "isVIP": isVip.toString(),
+      "price": price.toString(),
+      "isBooked": isBooked.toString(),
+      "restaurant":
+          LocalStorage('restaurant').getItem('restaurant_id').toString()
+    };
+
+    // print(data);
+    if (tableId != 0) {
+      updateTable(data);
+    } else {
+      createTable(data);
+    }
+  }
+
+  Future<void> updateTable(data) async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url =
+          Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.TABLES}$tableId/');
+      final response = await http.put(
+        url,
+        headers: {"Authorization": "JWT ${access_token}"},
+        body: data,
+      );
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Table $tableId updated successfully')),
+        );
+        Navigator.of(context).pop();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Failed to update Table $tableId. Please try again!')),
+        );
+        // print(response.statusCode);
+      }
+    } catch (error) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Failed to update Table $tableId. Please try again!')),
+        );
+      });
+      debugPrint(error.toString());
+    }
+  }
+
+  Future<void> createTable(data) async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.TABLES}');
+      final response = await http.post(
+        url,
+        headers: {"Authorization": "JWT ${access_token}"},
+        body: data,
+      );
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                  'Table ${jsonDecode(response.body)['tableId']} created successfully!')),
+        );
+        Navigator.of(context).pop();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Failed to create this table. Please try again!')),
+        );
+      }
+    } catch (error) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Failed to create this table. Please try again!')),
+        );
+      });
+      debugPrint(error.toString());
+    }
+  }
+
+  Future<void> deleteTable() async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url =
+          Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.TABLES}$tableId/');
+
+      final response = await http.delete(
+        url,
+        headers: {"Authorization": "JWT ${access_token}"},
+      );
+      if (response.statusCode == 204) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Table $tableId deleted successfully')),
+        );
+        Navigator.of(context).pop();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Failed to delete table $tableId. Please try again!')),
+        );
+      }
+    } catch (error) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Failed to delete table $tableId. Please try again!')),
+        );
+      });
+      debugPrint(error.toString());
+    }
   }
 
   @override
@@ -63,21 +216,19 @@ class _TableDetailState extends State<TableDetail> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Table > Table 1",
-                style: TextStyle(
+              Text(
+                "Table > ${tableId != 0 ? 'Table $tableId' : 'Create new table'}",
+                style: const TextStyle(
                     fontSize: 25.0,
                     color: Color(0xFF000000),
                     fontWeight: FontWeight.w300,
                     fontFamily: "Merriweather"),
               ),
               IconButton(
-                onPressed: () {
-                  print('deleted');
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
+                onPressed: tableId != 0 ? deleteTable : null,
+                icon: Icon(
+                  tableId != 0 ? Icons.delete : Icons.delete_forever,
+                  color: tableId != 0 ? Colors.red : Colors.grey,
                   size: 37.0,
                 ),
               )
@@ -92,7 +243,7 @@ class _TableDetailState extends State<TableDetail> {
             width: MediaQuery.of(context).size.width - 20,
             // height: MediaQuery.of(context).size.height - 300,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 231, 231, 231),
+              color: const Color.fromARGB(255, 231, 231, 231),
               boxShadow: List.filled(
                 3,
                 const BoxShadow(
@@ -111,7 +262,7 @@ class _TableDetailState extends State<TableDetail> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        color: Color.fromARGB(255, 240, 240, 240),
+                        color: const Color.fromARGB(255, 240, 240, 240),
                         padding: const EdgeInsets.all(2),
                         child: ClipRRect(
                           borderRadius:
@@ -128,8 +279,21 @@ class _TableDetailState extends State<TableDetail> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('20223-02-28 2:00 PM',
-                                textAlign: TextAlign.end),
+                            Text(
+                              (tableId != 0)
+                                  ? DateTime.parse(
+                                          widget.table.createdOn.toString())
+                                      .toUtc()
+                                      .toString()
+                                      .substring(0, 16)
+                                  : DateTime.now()
+                                      .toLocal()
+                                      .toString()
+                                      .substring(0, 16),
+                              textAlign: TextAlign.end,
+                              style:
+                                  const TextStyle(fontStyle: FontStyle.italic),
+                            ),
                             const SizedBox(
                               height: 5,
                             ),
@@ -139,11 +303,13 @@ class _TableDetailState extends State<TableDetail> {
                                 margin: EdgeInsets.only(left: 20),
                                 child: TextFormField(
                                   textAlignVertical: TextAlignVertical.center,
-                                  decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
-                                      hintText: 'Table 1',
-                                      border: OutlineInputBorder()),
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 10),
+                                    hintText: 'Table $tableId',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  enabled: false,
                                 )),
                             const SizedBox(
                               height: 5,
@@ -157,19 +323,26 @@ class _TableDetailState extends State<TableDetail> {
                                     child: TextFormField(
                                       textAlignVertical:
                                           TextAlignVertical.center,
-                                      decoration: const InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 2, horizontal: 10),
-                                          hintText: '\$14',
+                                      decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 2, horizontal: 10),
+                                          hintText: '\$$price',
                                           border: OutlineInputBorder()),
+                                      onChanged: (value) => setState(() {
+                                        price = value;
+                                      }),
                                     )),
                                 const SizedBox(
                                   width: 4,
                                 ),
                                 const Text('VIP'),
                                 Checkbox(
-                                    value: true,
-                                    onChanged: ((value) => setState(() {})))
+                                  value: isVip,
+                                  onChanged: ((value) => setState(() {
+                                        isVip = value!;
+                                      })),
+                                )
                               ],
                             )
                           ],
@@ -191,23 +364,17 @@ class _TableDetailState extends State<TableDetail> {
                     ),
                     child: // Step 2.
                         DropdownButton<String>(
-                      // Step 3.
-                      value: dropdownValue,
-                      // Step 4.
+                      value: isBooked ? 'Unavailable' : 'Available',
                       items: <String>['Available', 'Unavailable']
-                          .map<DropdownMenuItem<String>>((String value) {
+                          .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(fontSize: 14),
-                          ),
+                          child: Text(value, style: TextStyle(fontSize: 14)),
                         );
                       }).toList(),
-                      // Step 5.
                       onChanged: (String? newValue) {
                         setState(() {
-                          dropdownValue = newValue!;
+                          isBooked = newValue == 'Unavailable';
                         });
                       },
                     ),
@@ -225,7 +392,7 @@ class _TableDetailState extends State<TableDetail> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Number of sits ',
                           style: TextStyle(fontSize: 14),
                         ),
@@ -235,10 +402,18 @@ class _TableDetailState extends State<TableDetail> {
                             child: TextFormField(
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 5),
-                                  hintText: '4',
-                                  border: OutlineInputBorder()),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 5),
+                                hintText: '$noOfSeats',
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) => setState(() {
+                                if (int.tryParse(value) != null) {
+                                  noOfSeats = int.parse(value);
+                                } else {
+                                  noOfSeats = 0;
+                                }
+                              }),
                             )),
                       ],
                     ),
@@ -298,7 +473,15 @@ class _TableDetailState extends State<TableDetail> {
                       width: 200,
                       height: 40,
                       child: ElevatedButton(
-                          onPressed: () {}, child: Text('Submit')))
+                        onPressed: _submitForm,
+                        child: Text(
+                          tableId == 0 ? 'Add' : 'Edit',
+                          style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "Merriweather"),
+                        ),
+                      ))
                 ],
               ),
             ),

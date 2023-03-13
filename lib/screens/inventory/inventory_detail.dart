@@ -52,13 +52,15 @@ class _InventoryDetailState extends State<InventoryDetail> {
         Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update inventoryy')),
+          const SnackBar(
+              content: Text('Failed to update inventory. Please try again!')),
         );
       }
     } catch (error) {
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update inventoryi')),
+          const SnackBar(
+              content: Text('Failed to update inventory. Please try again!')),
         );
       });
       debugPrint(error.toString());
@@ -132,7 +134,7 @@ class _InventoryDetailState extends State<InventoryDetail> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // Call your method here and pass in inventoryName and quantity
-      print("${inventoryName} ${measurement} ${noticeIfBelow} ${quantity}");
+      // print("${inventoryName} ${measurement} ${noticeIfBelow} ${quantity}");
 
       if (inventoryId != 0) {
         final data = {

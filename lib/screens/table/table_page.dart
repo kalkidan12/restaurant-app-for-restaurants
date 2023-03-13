@@ -31,7 +31,7 @@ class _TableListState extends State<TableList> {
         List mapedData = json.decode(response.body) as List<dynamic>;
         List<TableModel> tables =
             mapedData.map((table) => TableModel.fromJson(table)).toList();
-        print(tables);
+        // print(tables);
         return tables;
       } else {
         // There is already a profile with this account
@@ -76,8 +76,19 @@ class _TableListState extends State<TableList> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TableDetail()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TableDetail(
+                                table: TableModel(
+                                    tableId: 0,
+                                    price: '',
+                                    createdOn: DateTime.now(),
+                                    isVip: false,
+                                    isBooked: false,
+                                    noOfSeats: 0,
+                                    restaurant: 0),
+                              )));
                 },
                 icon: const Icon(
                   Icons.add,
@@ -233,7 +244,10 @@ class _TableListState extends State<TableList> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              TableDetail()));
+                                                              TableDetail(
+                                                                table: tables[
+                                                                    index],
+                                                              )));
                                                 },
                                                 icon: const Icon(
                                                   Icons.edit,
@@ -270,18 +284,20 @@ class _TableListState extends State<TableList> {
                                                           ? TextDecoration.none
                                                           : TextDecoration
                                                               .lineThrough,
-                                                  fontSize: 18.0,
+                                                  fontSize: 16.0,
                                                   color: Colors.red,
                                                   fontWeight: FontWeight.w600,
                                                   fontFamily: "Merriweather"),
                                             ),
                                             const SizedBox(
-                                              width: 10,
+                                              width: 7,
                                             ),
                                             Text(
-                                              "Available",
+                                              !tables[index].isBooked
+                                                  ? "Available"
+                                                  : "Unavailable",
                                               style: TextStyle(
-                                                  fontSize: 18.0,
+                                                  fontSize: 16.0,
                                                   color: tables[index].isBooked
                                                       ? Colors.red
                                                       : Colors.green,

@@ -1,6 +1,6 @@
 class ApiConstants {
   // static String BASE_URL = 'http://127.0.0.1:8000';
-  static String BASE_URL = 'https://95b3-169-150-218-89.eu.ngrok.io';
+  static String BASE_URL = 'https://54a2-196-189-19-14.eu.ngrok.io';
   static String USER_LOGIN = '/auth/jwt/create/';
   static String USER_REGISTER = '/auth/users/';
   static String USER_ACCOUNT = '/auth/users/me/';
