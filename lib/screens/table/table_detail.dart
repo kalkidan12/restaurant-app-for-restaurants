@@ -193,6 +193,10 @@ class _TableDetailState extends State<TableDetail> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.qr_code),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         elevation: 0,
