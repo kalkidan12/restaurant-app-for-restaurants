@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
@@ -15,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final LocalStorage restaurantProfile = LocalStorage('restaurant');
   isIExist() async {
     // print("THIS IS RUNNGING:");
     try {
@@ -27,11 +30,28 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) => const ContinueREgister(),
           ),
         );
       } else {
         // There is already a profile with this account
+        // {
+        //     "restaurant_id": 1,
+        //     "user_id": 2,
+        //     "name": "ABC Restaurnat",
+        //     "map_link": "None",
+        //     "location": "Bole",
+        //     "phone_number": "+251962242167"
+        // }
+        final restaurantData = jsonDecode(response.body);
+        restaurantProfile.setItem(
+            'restaurant_id', restaurantData['restaurant_id']);
+        restaurantProfile.setItem('user_id', restaurantData['user_id']);
+        restaurantProfile.setItem('name', restaurantData['name']);
+        restaurantProfile.setItem('map_link', restaurantData['map_link']);
+        restaurantProfile.setItem('location', restaurantData['location']);
+        restaurantProfile.setItem(
+            'phone_number', restaurantData['phone_number']);
       }
     } catch (e) {
       print(e);

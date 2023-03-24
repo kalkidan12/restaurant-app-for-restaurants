@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:restaurantapp/screens/inventory/inventory_page.dart';
 import 'package:restaurantapp/screens/menu/menu_page.dart';
 import 'package:restaurantapp/screens/order/order_page.dart';
 
@@ -17,7 +19,7 @@ class DrawerWidget extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color.fromARGB(255, 30, 134, 220),
               // image: new DecorationImage(
               //   image: AssetImage("assets/images/bg_banner.jpg"),
@@ -29,18 +31,18 @@ class DrawerWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  'Rest Name',
-                  style: TextStyle(fontSize: 25, color: Colors.white),
+                  LocalStorage('restaurant').getItem('name'),
+                  style: const TextStyle(fontSize: 25, color: Colors.white),
                 ),
-                Text('Rest Location',
-                    style: TextStyle(fontSize: 17, color: Colors.white)),
-                Text('+2513747588',
-                    style: TextStyle(fontSize: 17, color: Colors.white)),
+                Text(LocalStorage('restaurant').getItem('location'),
+                    style: const TextStyle(fontSize: 17, color: Colors.white)),
+                Text(LocalStorage('restaurant').getItem('phone_number'),
+                    style: const TextStyle(fontSize: 17, color: Colors.white)),
               ],
             ),
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.restaurant_menu,
               size: 30,
             ),
@@ -54,7 +56,7 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.table_bar,
               size: 30,
             ),
@@ -91,7 +93,8 @@ class DrawerWidget extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => InventoryList()));
             },
           ),
           ListTile(

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: const Color.fromARGB(255, 216, 216, 216),
       ),
-      home: const HomePage(),
+      home: const LoginScreen(),
     );
   }
 }

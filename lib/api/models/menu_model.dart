@@ -49,3 +49,38 @@ class MenuModel {
         "restaurant": restaurant,
       };
 }
+
+class MenuItem {
+  final int dishId;
+  final String name;
+  final String description;
+  final String price;
+  final bool isSpecial;
+  final String createdOn;
+  final String updatedOn;
+  final int restaurant;
+
+  MenuItem({
+    required this.dishId,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.isSpecial,
+    required this.createdOn,
+    required this.updatedOn,
+    required this.restaurant,
+  });
+
+  factory MenuItem.fromJson(Map<String, dynamic> json) {
+    return MenuItem(
+      dishId: json['dish_id'],
+      name: json['name'],
+      description: json['description'],
+      price: json['price'],
+      isSpecial: json['isSpecial'],
+      createdOn: json['createdOn'],
+      updatedOn: json['updatedOn'],
+      restaurant: json['restaurant'],
+    );
+  }
+}
