@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
@@ -98,6 +101,7 @@ class _MenuDetailState extends State<MenuDetail> {
         headers: {"Authorization": "JWT " + access_token},
         body: data,
       );
+
       if (response.statusCode == 201) {
         Navigator.of(context).pop();
       } else {
@@ -159,6 +163,22 @@ class _MenuDetailState extends State<MenuDetail> {
         _errorMessage = "Error removing menu item. please try again.";
       });
       print(_errorMessage);
+    }
+  }
+
+  final ImagePicker _picker = ImagePicker();
+  File? image;
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
     }
   }
 
@@ -240,14 +260,21 @@ class _MenuDetailState extends State<MenuDetail> {
                       Container(
                         color: Color.fromARGB(255, 240, 240, 240),
                         padding: const EdgeInsets.all(2),
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(50)),
-                          child: Image.asset(
-                            'assets/images/menu7.png',
-                            fit: BoxFit.fill,
+                        child: GestureDetector(
+                          onTap: () {
+                            pickImage(ImageSource.gallery);
+                          },
+                          child: Container(
                             width: 100.0,
                             height: 100.0,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: image == null
+                                  ? AssetImage('assets/images/gallery.png')
+                                      as ImageProvider
+                                  : FileImage(File(image!.path)),
+                            )),
                           ),
                         ),
                       ),
