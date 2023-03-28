@@ -42,8 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
   loginUser(data) async {
     tokens.clear();
     try {
-      var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.USER_LOGIN);
+      var url = Uri.parse("${ApiConstants.BASE_URL}${ApiConstants.USER_LOGIN}");
+      // print(url);
+      // print(data);
       var response = await http.post(url, body: data);
+      print(response);
       if (response.statusCode == 200) {
         setState(() {
           this.model = userLoginFromJson(response.body);

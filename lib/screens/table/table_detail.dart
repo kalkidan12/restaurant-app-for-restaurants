@@ -201,7 +201,7 @@ class _TableDetailState extends State<TableDetail> {
         backgroundColor: Colors.blue,
         elevation: 0,
         title: const Text(
-          "Fast Track | Restaurant",
+          "Order Supreme | Restaurant",
           style: TextStyle(
             color: Colors.white,
           ),

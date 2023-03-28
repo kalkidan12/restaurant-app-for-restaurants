@@ -114,7 +114,7 @@ class _MenuDetailState extends State<MenuDetail> {
       setState(() {
         _errorMessage = "Error creating menu item. please try again.";
       });
-      print(_errorMessage);
+      print(error);
     }
   }
 
