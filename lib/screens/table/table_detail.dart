@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:restaurantapp/screens/qr_generator.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
 import 'package:restaurantapp/api/models/menu_model.dart';
@@ -194,7 +196,15 @@ class _TableDetailState extends State<TableDetail> {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            CupertinoPageRoute(
+              builder: (BuildContext context) => QRGenerator(
+                  textQrCode:
+                      "{'RestaurantID': '${LocalStorage('restaurant').getItem('restaurant_id')}', 'TableID': '$tableId'}"),
+            ),
+          );
+        },
         child: Icon(Icons.qr_code),
       ),
       appBar: AppBar(

@@ -34,15 +34,6 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       } else {
-        // There is already a profile with this account
-        // {
-        //     "restaurant_id": 1,
-        //     "user_id": 2,
-        //     "name": "ABC Restaurnat",
-        //     "map_link": "None",
-        //     "location": "Bole",
-        //     "phone_number": "+251962242167"
-        // }
         final restaurantData = jsonDecode(response.body);
         restaurantProfile.setItem(
             'restaurant_id', restaurantData['restaurant_id']);

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue,
       ),
-      home: MyHomePage(), // LoginScreen()
+      home: LoginScreen(),
     );
   }
 }
@@ -61,9 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(CupertinoPageRoute(
+                  Navigator.of(context).push(
+                    CupertinoPageRoute(
                       builder: (BuildContext context) =>
-                          QRGenerator(textQrCode: textQr.text.trim())));
+                          QRGenerator(textQrCode: textQr.text.trim()),
+                    ),
+                  );
                 },
                 child: Container(
                   height: 50,
