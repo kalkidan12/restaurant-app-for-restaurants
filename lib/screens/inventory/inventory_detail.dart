@@ -3,7 +3,6 @@ import 'package:restaurantapp/api/config.dart';
 import 'package:restaurantapp/api/models/inventory_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
-import 'dart:convert';
 
 class InventoryDetail extends StatefulWidget {
   final Inventory inventory;

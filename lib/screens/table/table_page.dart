@@ -203,29 +203,31 @@ class _TableListState extends State<TableList> {
                                                     width: 110,
                                                     child: Row(
                                                       children: [
-                                                        const Text(
-                                                          "Number of sits: ",
-                                                          softWrap: true,
-                                                          style: TextStyle(
-                                                              fontSize: 15.0,
-                                                              color: Color(
-                                                                  0xFF000000),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontFamily:
-                                                                  "Merriweather"),
+                                                        const Expanded(
+                                                          child: Text(
+                                                            "Number of sits: ",
+                                                            softWrap: true,
+                                                            style: TextStyle(
+                                                                fontSize: 15.0,
+                                                                color: Color(
+                                                                    0xFF000000),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    "Merriweather"),
+                                                          ),
                                                         ),
                                                         Text(
                                                           "${tables[index].noOfSeats}",
                                                           softWrap: true,
                                                           style: const TextStyle(
-                                                              fontSize: 15.0,
+                                                              fontSize: 16.0,
                                                               color: Color(
                                                                   0xFF000000),
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w400,
+                                                                      .w600,
                                                               fontFamily:
                                                                   "Merriweather"),
                                                         ),

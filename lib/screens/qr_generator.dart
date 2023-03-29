@@ -73,14 +73,14 @@ class _QRGeneratorState extends State<QRGenerator> {
   }
 
   final List<Map<String, dynamic>> data = [
-    {'RestaurantID': 'RID234563', 'TableID': 'TID546374'},
+    {'RestaurantID': '', 'TableID': 'TID546374'},
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Qr code scrren"),
-        centerTitle: true,
+        title: Text("Table QR code"),
+        centerTitle: false,
         elevation: 0.0,
       ),
       body: Padding(
@@ -93,7 +93,7 @@ class _QRGeneratorState extends State<QRGenerator> {
                 child: RepaintBoundary(
               key: globalKey,
               child: QrImage(
-                data: data.toString(), //"${widget.textQrCode}",
+                data: "${widget.textQrCode}", //data.toString(),
                 version: QrVersions.auto,
                 size: 200,
                 backgroundColor: Colors.white,
