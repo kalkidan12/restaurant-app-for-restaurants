@@ -43,7 +43,7 @@ class _ContinueREgisterState extends State<ContinueREgister> {
       String access_token = LocalStorage('tokens').getItem('access');
       var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.USER_ACCOUNT);
       var response = await http
-          .get(url, headers: {"Authorization": "JWT " + access_token});
+          .get(url, headers: {"Authorization": "Bearer " + access_token});
       if (response.statusCode == 200) {
         return true;
       } else {
@@ -62,7 +62,7 @@ class _ContinueREgisterState extends State<ContinueREgister> {
       String access_token = LocalStorage('tokens').getItem('access');
       var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.USER_PROFILE);
       var response = await http
-          .get(url, headers: {"Authorization": "JWT " + access_token});
+          .get(url, headers: {"Authorization": "Bearer " + access_token});
       if (response.statusCode == 404) {
         setState(() {
           _isProfileExist = false;
@@ -88,7 +88,7 @@ class _ContinueREgisterState extends State<ContinueREgister> {
           Uri.parse(ApiConstants.BASE_URL + ApiConstants.RESTAURANT_REGISTER);
       String access_token = LocalStorage('tokens').getItem('access');
       var response = await http.post(url,
-          body: data, headers: {"Authorization": "JWT " + access_token});
+          body: data, headers: {"Authorization": "Bearer " + access_token});
       // print(response.statusCode);
       if (response.statusCode == 201) {
         Navigator.push(
