@@ -96,7 +96,7 @@ class _TableDetailState extends State<TableDetail> {
           Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.TABLES}$tableId/');
       final response = await http.put(
         url,
-        headers: {"Authorization": "JWT ${access_token}"},
+        headers: {"Authorization": "Bearer ${access_token}"},
         body: data,
       );
       if (response.statusCode == 200) {
@@ -130,7 +130,7 @@ class _TableDetailState extends State<TableDetail> {
       var url = Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.TABLES}');
       final response = await http.post(
         url,
-        headers: {"Authorization": "JWT ${access_token}"},
+        headers: {"Authorization": "Bearer ${access_token}"},
         body: data,
       );
       if (response.statusCode == 201) {
@@ -165,7 +165,7 @@ class _TableDetailState extends State<TableDetail> {
 
       final response = await http.delete(
         url,
-        headers: {"Authorization": "JWT ${access_token}"},
+        headers: {"Authorization": "Bearer ${access_token}"},
       );
       if (response.statusCode == 204) {
         ScaffoldMessenger.of(context).showSnackBar(

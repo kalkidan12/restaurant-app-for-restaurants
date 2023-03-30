@@ -23,7 +23,7 @@ class _InventoryListState extends State<InventoryList> {
       String access_token = LocalStorage('tokens').getItem('access');
       var url = Uri.parse(ApiConstants.BASE_URL + ApiConstants.INVENTORIES);
       var response = await http
-          .get(url, headers: {"Authorization": "JWT " + access_token});
+          .get(url, headers: {"Authorization": "Bearer " + access_token});
       if (response.statusCode == 200) {
         List mapedData = json.decode(response.body) as List<dynamic>;
         List<Inventory> inventories = mapedData

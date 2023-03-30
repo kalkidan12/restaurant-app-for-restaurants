@@ -68,7 +68,7 @@ class _MenuDetailState extends State<MenuDetail> {
       String access_token = LocalStorage('tokens').getItem('access');
       final response = await http.get(
           Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}${id}/'),
-          headers: {"Authorization": "JWT " + access_token});
+          headers: {"Authorization": "Bearer " + access_token});
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -98,7 +98,7 @@ class _MenuDetailState extends State<MenuDetail> {
       var url = Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}');
       final response = await http.post(
         url,
-        headers: {"Authorization": "JWT " + access_token},
+        headers: {"Authorization": "Bearer " + access_token},
         body: data,
       );
 
@@ -124,7 +124,7 @@ class _MenuDetailState extends State<MenuDetail> {
       var url = Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}$id/');
       final response = await http.put(
         url,
-        headers: {"Authorization": "JWT " + access_token},
+        headers: {"Authorization": "Bearer " + access_token},
         body: data,
       );
       if (response.statusCode == 200) {
@@ -149,7 +149,7 @@ class _MenuDetailState extends State<MenuDetail> {
       var url = Uri.parse(
           '${ApiConstants.BASE_URL}${ApiConstants.MENUS}${widget.id}/');
       final response = await http
-          .delete(url, headers: {"Authorization": "JWT " + access_token});
+          .delete(url, headers: {"Authorization": "Bearer " + access_token});
       if (response.statusCode == 204) {
         Navigator.of(context).pop();
       } else {

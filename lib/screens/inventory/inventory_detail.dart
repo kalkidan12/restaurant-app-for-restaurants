@@ -41,7 +41,7 @@ class _InventoryDetailState extends State<InventoryDetail> {
           '${ApiConstants.BASE_URL}${ApiConstants.INVENTORIES}$inventoryId/');
       final response = await http.put(
         url,
-        headers: {"Authorization": "JWT ${access_token}"},
+        headers: {"Authorization": "Bearer ${access_token}"},
         body: data,
       );
       if (response.statusCode == 200) {
@@ -73,7 +73,7 @@ class _InventoryDetailState extends State<InventoryDetail> {
           Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.INVENTORIES}');
       final response = await http.post(
         url,
-        headers: {"Authorization": "JWT ${access_token}"},
+        headers: {"Authorization": "Bearer ${access_token}"},
         body: data,
       );
       if (response.statusCode == 201) {
@@ -105,7 +105,7 @@ class _InventoryDetailState extends State<InventoryDetail> {
           '${ApiConstants.BASE_URL}${ApiConstants.INVENTORIES}$inventoryId/');
       final response = await http.delete(
         url,
-        headers: {"Authorization": "JWT ${access_token}"},
+        headers: {"Authorization": "Bearer ${access_token}"},
       );
       if (response.statusCode == 204) {
         ScaffoldMessenger.of(context).showSnackBar(
