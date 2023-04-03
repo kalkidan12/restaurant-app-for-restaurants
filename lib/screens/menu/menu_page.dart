@@ -149,8 +149,8 @@ class _MenuListState extends State<MenuList> {
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(50),
                                       ),
-                                      child: Image.asset(
-                                        'assets/images/menu1.png',
+                                      child: Image.network(
+                                        menus[index].image,
                                         fit: BoxFit.contain,
                                         width: 100.0,
                                         height: 100.0,
