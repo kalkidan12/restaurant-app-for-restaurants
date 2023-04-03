@@ -1,18 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:localstorage/localstorage.dart';
 
+import 'package:http/http.dart' as http;
+import '../../api/config.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/darwer_widget.dart';
 
 class AddInventoryForMenu extends StatefulWidget {
-  const AddInventoryForMenu({super.key});
+  final int menuId;
+  AddInventoryForMenu({Key? key, required this.menuId}) : super(key: key);
 
   @override
   State<AddInventoryForMenu> createState() => _AddInventoryForMenuState();
 }
 
 class _AddInventoryForMenuState extends State<AddInventoryForMenu> {
+  late int menuId;
+
+  @override
+  void initState() {
+    super.initState();
+    menuId = widget.menuId;
+  }
+
+  Future<void> createMenuInventory(data) async {
+    try {
+      String access_token = LocalStorage('tokens').getItem('access');
+      var url = Uri.parse(
+          '${ApiConstants.BASE_URL}${ApiConstants.MENUS}$menuId/inventory/');
+      final response = await http.post(
+        url,
+        headers: {"Authorization": "Bearer " + access_token},
+        body: data,
+      );
+      if (response.statusCode == 200) {
+        Navigator.of(context).pop();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("Error updating menu item. please try again.")),
+        );
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error updating menu item. please try again.")),
+      );
+      print(error);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -155,7 +193,7 @@ class _AddInventoryForMenuState extends State<AddInventoryForMenu> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             SizedBox(
-                              width: 70,
+                              width: 40,
                               child: Text(
                                 'No.',
                                 textAlign: TextAlign.center,
@@ -190,7 +228,7 @@ class _AddInventoryForMenuState extends State<AddInventoryForMenu> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: 70,
+                            width: 30,
                             child: Text(
                               '1',
                               textAlign: TextAlign.center,

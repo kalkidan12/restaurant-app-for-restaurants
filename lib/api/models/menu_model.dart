@@ -11,6 +11,7 @@ class MenuModel {
     required this.dishId,
     required this.name,
     required this.description,
+    required this.image,
     required this.price,
     required this.isSpecial,
     required this.createdOn,
@@ -21,6 +22,8 @@ class MenuModel {
   int dishId;
   String name;
   String description;
+
+  String image;
   String price;
   bool isSpecial;
   DateTime createdOn;
@@ -31,6 +34,7 @@ class MenuModel {
         dishId: json["dish_id"],
         name: json["name"],
         description: json["description"],
+        image: json["image"],
         price: json["price"],
         isSpecial: json["isSpecial"],
         createdOn: DateTime.parse(json["createdOn"]),
@@ -42,6 +46,7 @@ class MenuModel {
         "dish_id": dishId,
         "name": name,
         "description": description,
+        "image": image,
         "price": price,
         "isSpecial": isSpecial,
         "createdOn": createdOn.toIso8601String(),
@@ -54,6 +59,7 @@ class MenuItem {
   final int dishId;
   final String name;
   final String description;
+  final String image;
   final String price;
   final bool isSpecial;
   final String createdOn;
@@ -64,6 +70,7 @@ class MenuItem {
     required this.dishId,
     required this.name,
     required this.description,
+    required this.image,
     required this.price,
     required this.isSpecial,
     required this.createdOn,
@@ -76,6 +83,7 @@ class MenuItem {
       dishId: json['dish_id'],
       name: json['name'],
       description: json['description'],
+      image: json['image'],
       price: json['price'],
       isSpecial: json['isSpecial'],
       createdOn: json['createdOn'],

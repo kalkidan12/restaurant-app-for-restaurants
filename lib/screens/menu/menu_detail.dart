@@ -12,6 +12,7 @@ import 'package:flutter/services.dart' as rootBundle;
 
 import '../../widgets/app_bar.dart';
 import '../../widgets/darwer_widget.dart';
+import '../inventory/add_inventory_for_menu.dart';
 import 'menu_page.dart';
 
 class MenuDetail extends StatefulWidget {
@@ -27,10 +28,13 @@ class _MenuDetailState extends State<MenuDetail> {
   final _menuFormKey = GlobalKey<FormState>();
   late TextEditingController _dishNameController;
   late TextEditingController _descriptionController;
+  late TextEditingController _imageController;
   late TextEditingController _priceController;
   late DateTime _createdDate;
   late bool _isSpecial;
   late String _errorMessage;
+  final ImagePicker _picker = ImagePicker();
+  File? image;
 
   @override
   void initState() {
@@ -38,6 +42,7 @@ class _MenuDetailState extends State<MenuDetail> {
     _errorMessage = "";
     _dishNameController = TextEditingController();
     _descriptionController = TextEditingController();
+    _imageController = TextEditingController();
     _priceController = TextEditingController();
     _isSpecial = false;
     _createdDate = DateTime.now();
@@ -47,7 +52,7 @@ class _MenuDetailState extends State<MenuDetail> {
   }
 
   formSubmitted(dishName, dishDescription, dishPrice, isSpecial) {
-    final data = <String, dynamic>{
+    final data = <String, String>{
       'name': dishName,
       'description': dishDescription,
       'price': dishPrice,
@@ -74,6 +79,7 @@ class _MenuDetailState extends State<MenuDetail> {
         setState(() {
           _dishNameController.text = data['name'];
           _descriptionController.text = data['description'];
+          image = data['image'];
           _priceController.text = data['price'];
           _isSpecial = data['isSpecial'];
           _createdDate = DateTime.parse(data['createdOn']).toLocal();
@@ -92,16 +98,23 @@ class _MenuDetailState extends State<MenuDetail> {
     }
   }
 
-  Future<void> createMenuItem(data) async {
+  Future<void> createMenuItem(Map<String, String> data) async {
     try {
-      String access_token = LocalStorage('tokens').getItem('access');
-      var url = Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}');
-      final response = await http.post(
-        url,
-        headers: {"Authorization": "Bearer " + access_token},
-        body: data,
-      );
+      final String accessToken = LocalStorage('tokens').getItem('access');
+      final Uri url =
+          Uri.parse('${ApiConstants.BASE_URL}${ApiConstants.MENUS}');
+      final http.MultipartRequest request = http.MultipartRequest('POST', url)
+        ..headers['Authorization'] = 'Bearer $accessToken'
+        ..fields.addAll(data);
 
+      final http.MultipartFile multipartFile =
+          await http.MultipartFile.fromPath(
+        'image',
+        image!.path.toString(),
+      );
+      request.files.add(multipartFile);
+
+      final http.StreamedResponse response = await request.send();
       if (response.statusCode == 201) {
         Navigator.of(context).pop();
       } else {
@@ -166,8 +179,6 @@ class _MenuDetailState extends State<MenuDetail> {
     }
   }
 
-  final ImagePicker _picker = ImagePicker();
-  File? image;
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -187,12 +198,23 @@ class _MenuDetailState extends State<MenuDetail> {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false, //new line
-
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddInventoryForMenu(menuId: widget.id),
+            ),
+          );
+        },
+        label: const Text('Add Inventory'),
+        icon: const Icon(Icons.add),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         elevation: 0,
         title: const Text(
-          "Fast Track | Restaurant",
+          "Order Supreme | Restaurant",
           style: TextStyle(
             color: Colors.white,
           ),
