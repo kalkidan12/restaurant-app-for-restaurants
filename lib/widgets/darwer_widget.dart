@@ -20,20 +20,51 @@ class DrawerWidget extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 30, 134, 220),
+              color: Colors.lightBlue,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  LocalStorage('restaurant').getItem('name'),
-                  style: const TextStyle(fontSize: 23, color: Colors.white),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      LocalStorage('restaurant').getItem('name'),
+                      style: const TextStyle(fontSize: 23, color: Colors.white),
+                    ),
+                  ],
                 ),
-                Text(LocalStorage('restaurant').getItem('location'),
-                    style: const TextStyle(fontSize: 17, color: Colors.white)),
-                Text(LocalStorage('restaurant').getItem('phone_number'),
-                    style: const TextStyle(fontSize: 17, color: Colors.white)),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(LocalStorage('restaurant').getItem('location'),
+                        style:
+                            const TextStyle(fontSize: 17, color: Colors.white)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.phone,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(LocalStorage('restaurant').getItem('phone_number'),
+                        style:
+                            const TextStyle(fontSize: 17, color: Colors.white)),
+                  ],
+                ),
               ],
             ),
           ),
