@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:restaurantapp/screens/qr_generator.dart';
+import 'package:restaurantapp/screens/qr/qr_generator.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
 import 'package:restaurantapp/api/models/menu_model.dart';
