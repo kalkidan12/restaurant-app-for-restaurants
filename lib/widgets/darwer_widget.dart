@@ -14,17 +14,13 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Color.fromARGB(255, 238, 238, 238),
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 30, 134, 220),
-              // image: new DecorationImage(
-              //   image: AssetImage("assets/images/bg_banner.jpg"),
-              //   fit: BoxFit.cover,
-              // ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +28,7 @@ class DrawerWidget extends StatelessWidget {
               children: [
                 Text(
                   LocalStorage('restaurant').getItem('name'),
-                  style: const TextStyle(fontSize: 25, color: Colors.white),
+                  style: const TextStyle(fontSize: 23, color: Colors.white),
                 ),
                 Text(LocalStorage('restaurant').getItem('location'),
                     style: const TextStyle(fontSize: 17, color: Colors.white)),
@@ -42,10 +38,8 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(
-              Icons.restaurant_menu,
-              size: 30,
-            ),
+            leading: const Icon(Icons.restaurant_menu,
+                size: 30, color: Color.fromARGB(255, 1, 128, 187)),
             title: const Text(
               'Menus',
               style: TextStyle(fontSize: 18),
@@ -56,10 +50,8 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(
-              Icons.table_bar,
-              size: 30,
-            ),
+            leading: const Icon(Icons.table_bar,
+                size: 30, color: Color.fromARGB(255, 1, 128, 187)),
             title: const Text(
               'Tables',
               style: TextStyle(fontSize: 18),
@@ -70,10 +62,8 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.bakery_dining_sharp,
-              size: 30,
-            ),
+            leading: Icon(Icons.bakery_dining_sharp,
+                size: 30, color: Color.fromARGB(255, 1, 128, 187)),
             title: const Text(
               'Orders',
               style: TextStyle(fontSize: 18),
@@ -84,10 +74,8 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.inventory,
-              size: 30,
-            ),
+            leading: Icon(Icons.inventory,
+                size: 30, color: Color.fromARGB(255, 1, 128, 187)),
             title: const Text(
               'Inventories',
               style: TextStyle(fontSize: 18),
@@ -98,10 +86,8 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.payment,
-              size: 30,
-            ),
+            leading: Icon(Icons.payment,
+                size: 30, color: Color.fromARGB(255, 1, 128, 187)),
             title: const Text(
               'Payments',
               style: TextStyle(fontSize: 18),
@@ -111,10 +97,8 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.logout,
-              size: 30,
-            ),
+            leading: Icon(Icons.logout,
+                size: 30, color: Color.fromARGB(255, 1, 128, 187)),
             title: const Text(
               'Logout',
               style: TextStyle(fontSize: 18),
