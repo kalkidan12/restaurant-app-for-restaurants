@@ -9,7 +9,7 @@ class MyAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.lightBlue,
       elevation: 0,
       title: const Text(
         "Fast Track | Restaurant",

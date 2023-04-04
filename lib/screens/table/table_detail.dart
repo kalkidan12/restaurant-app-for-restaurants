@@ -5,14 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:restaurantapp/screens/qr/qr_generator.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
-import 'package:restaurantapp/api/models/menu_model.dart';
-import 'package:flutter/services.dart' as rootBundle;
+
 import 'package:restaurantapp/api/models/table_model.dart';
 import 'package:restaurantapp/screens/table/table_page.dart';
 
 import '../../api/config.dart';
-import '../../widgets/app_bar.dart';
-import '../../widgets/darwer_widget.dart';
 
 class TableDetail extends StatefulWidget {
   final TableModel table;
@@ -52,14 +49,18 @@ class _TableDetailState extends State<TableDetail> {
   void _submitForm() {
     if (noOfSeats < 1) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid number of sits.')),
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Please enter a valid number of sits.')),
       );
 
       return;
     }
     if (price == '0.0') {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid price.')),
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Please enter a valid price.')),
       );
 
       return;
@@ -67,7 +68,9 @@ class _TableDetailState extends State<TableDetail> {
 
     if (price == '0.0') {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid price.')),
+        const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Please enter a valid price.')),
       );
 
       return;
@@ -101,12 +104,15 @@ class _TableDetailState extends State<TableDetail> {
       );
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Table $tableId updated successfully')),
+          SnackBar(
+              backgroundColor: Colors.lightBlue,
+              content: Text('Table $tableId updated successfully')),
         );
         Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+              backgroundColor: Colors.red,
               content:
                   Text('Failed to update Table $tableId. Please try again!')),
         );
@@ -116,6 +122,7 @@ class _TableDetailState extends State<TableDetail> {
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+              backgroundColor: Colors.red,
               content:
                   Text('Failed to update Table $tableId. Please try again!')),
         );
@@ -136,6 +143,7 @@ class _TableDetailState extends State<TableDetail> {
       if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+              backgroundColor: Colors.lightBlue,
               content: Text(
                   'Table ${jsonDecode(response.body)['tableId']} created successfully!')),
         );
@@ -143,6 +151,7 @@ class _TableDetailState extends State<TableDetail> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
+              backgroundColor: Colors.red,
               content: Text('Failed to create this table. Please try again!')),
         );
       }
@@ -150,6 +159,7 @@ class _TableDetailState extends State<TableDetail> {
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
+              backgroundColor: Colors.red,
               content: Text('Failed to create this table. Please try again!')),
         );
       });
@@ -169,12 +179,15 @@ class _TableDetailState extends State<TableDetail> {
       );
       if (response.statusCode == 204) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Table $tableId deleted successfully')),
+          SnackBar(
+              backgroundColor: Colors.lightBlue,
+              content: Text('Table $tableId deleted successfully')),
         );
         Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+              backgroundColor: Colors.red,
               content:
                   Text('Failed to delete table $tableId. Please try again!')),
         );
@@ -183,6 +196,7 @@ class _TableDetailState extends State<TableDetail> {
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+              backgroundColor: Colors.red,
               content:
                   Text('Failed to delete table $tableId. Please try again!')),
         );
@@ -205,13 +219,16 @@ class _TableDetailState extends State<TableDetail> {
             ),
           );
         },
-        child: Icon(Icons.qr_code),
+        child: const Icon(
+          Icons.qr_code,
+          color: Colors.white,
+        ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.lightBlue,
         elevation: 0,
         title: const Text(
-          "Order Supreme | Restaurant",
+          "Table",
           style: TextStyle(
             color: Colors.white,
           ),
@@ -219,13 +236,16 @@ class _TableDetailState extends State<TableDetail> {
         leading: IconButton(
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TableList()));
+                  MaterialPageRoute(builder: (context) => const TableList()));
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -249,7 +269,7 @@ class _TableDetailState extends State<TableDetail> {
             ],
           ),
           const Divider(
-            color: Colors.black87,
+            color: Color.fromARGB(221, 124, 124, 124),
           ),
           const SizedBox(height: 5),
           Container(
@@ -257,13 +277,13 @@ class _TableDetailState extends State<TableDetail> {
             width: MediaQuery.of(context).size.width - 20,
             // height: MediaQuery.of(context).size.height - 300,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 231, 231, 231),
+              color: Color.fromARGB(255, 243, 243, 243),
               boxShadow: List.filled(
                 3,
                 const BoxShadow(
                   blurRadius: 4,
                   blurStyle: BlurStyle.outer,
-                  color: Colors.black12,
+                  color: Color.fromARGB(31, 176, 176, 176),
                 ),
               ),
               borderRadius: BorderRadius.circular(10),
@@ -289,9 +309,12 @@ class _TableDetailState extends State<TableDetail> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
                               (tableId != 0)
@@ -309,12 +332,12 @@ class _TableDetailState extends State<TableDetail> {
                                   const TextStyle(fontStyle: FontStyle.italic),
                             ),
                             const SizedBox(
-                              height: 5,
+                              height: 8,
                             ),
                             Container(
                                 color: Colors.white,
-                                width: 190,
-                                margin: EdgeInsets.only(left: 20),
+                                // width: 190,
+                                // margin: EdgeInsets.only(left: 20),
                                 child: TextFormField(
                                   textAlignVertical: TextAlignVertical.center,
                                   decoration: InputDecoration(
@@ -326,38 +349,49 @@ class _TableDetailState extends State<TableDetail> {
                                   enabled: false,
                                 )),
                             const SizedBox(
-                              height: 5,
+                              height: 8,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    color: Colors.white,
-                                    width: 80,
-                                    child: TextFormField(
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      decoration: InputDecoration(
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 2, horizontal: 10),
-                                          hintText: '\$$price',
-                                          border: OutlineInputBorder()),
-                                      onChanged: (value) => setState(() {
-                                        price = value;
-                                      }),
-                                    )),
-                                const SizedBox(
-                                  width: 4,
-                                ),
-                                const Text('VIP'),
-                                Checkbox(
-                                  value: isVip,
-                                  onChanged: ((value) => setState(() {
-                                        isVip = value!;
-                                      })),
-                                )
-                              ],
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                        color: Colors.white,
+                                        // width: 80,
+                                        child: TextFormField(
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 10),
+                                              hintText: '\$$price',
+                                              border: OutlineInputBorder()),
+                                          onChanged: (value) => setState(() {
+                                            price = value;
+                                          }),
+                                        )),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        const Text('VIP'),
+                                        Checkbox(
+                                          value: isVip,
+                                          onChanged: ((value) => setState(() {
+                                                isVip = value!;
+                                              })),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -435,62 +469,15 @@ class _TableDetailState extends State<TableDetail> {
                   const SizedBox(
                     height: 15,
                   ),
-                  // Container(
-                  //   padding: const EdgeInsets.all(15),
-                  //   width: MediaQuery.of(context).size.width - 30,
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.white70,
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Text(
-                  //         'Booked By ',
-                  //         style: TextStyle(fontSize: 17),
-                  //       ),
-                  //       Text(
-                  //         'Zelalem Getachew ',
-                  //         style: TextStyle(fontSize: 17),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 15,
-                  // ),
-                  // Container(
-                  //   padding: const EdgeInsets.all(15),
-                  //   width: MediaQuery.of(context).size.width - 30,
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.white70,
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Text(
-                  //         'Created On ',
-                  //         style: TextStyle(fontSize: 17),
-                  //       ),
-                  //       Text(
-                  //         '2023-0208 2:00 PM ',
-                  //         style: TextStyle(fontSize: 17),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 15,
-                  // ),
                   Container(
                       width: 200,
                       height: 40,
                       child: ElevatedButton(
                         onPressed: _submitForm,
                         child: Text(
-                          tableId == 0 ? 'Add' : 'Edit',
+                          tableId == 0 ? 'Add' : 'Update',
                           style: const TextStyle(
+                              color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w600,
                               fontFamily: "Merriweather"),

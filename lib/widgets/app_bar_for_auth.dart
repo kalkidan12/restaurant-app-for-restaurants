@@ -9,7 +9,7 @@ class MyAppbarForAuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.lightBlue,
       elevation: 0,
       automaticallyImplyLeading: false,
       title: const Text(

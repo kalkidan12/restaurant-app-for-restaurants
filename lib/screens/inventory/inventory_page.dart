@@ -224,7 +224,7 @@ class _InventoryListState extends State<InventoryList> {
                                     },
                                     icon: Icon(
                                       Icons.edit,
-                                      color: Colors.blue[400],
+                                      color: Colors.lightBlue[400],
                                       size: 30,
                                     ),
                                   ))

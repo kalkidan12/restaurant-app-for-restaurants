@@ -54,9 +54,30 @@ class _TableListState extends State<TableList> {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       drawer: const DrawerWidget(),
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(50.0), // here the desired height
-        child: MyAppbar(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50.0), // here the desired height
+        child: AppBar(
+          backgroundColor: Colors.lightBlue,
+          elevation: 0,
+          title: const Text(
+            "Tables",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.menu),
+                color: Colors.white,
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+        ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -127,191 +148,189 @@ class _TableListState extends State<TableList> {
                       return ListView.builder(
                           itemCount: tables.length,
                           itemBuilder: (context, index) {
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 20),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 241, 241, 241),
-                                boxShadow: List.filled(
-                                  3,
-                                  const BoxShadow(
-                                    blurRadius: 4,
-                                    blurStyle: BlurStyle.outer,
-                                    color: Colors.black12,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TableDetail(
+                                              table: tables[index],
+                                            )));
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 20),
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 241, 241, 241),
+                                  boxShadow: List.filled(
+                                    3,
+                                    const BoxShadow(
+                                      blurRadius: 4,
+                                      blurStyle: BlurStyle.outer,
+                                      color: Color.fromARGB(31, 190, 190, 190),
+                                    ),
                                   ),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    color: Color.fromARGB(255, 234, 234, 234),
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(50)),
-                                      child: Image.asset(
-                                        "assets/images/table.jpg",
-                                        fit: BoxFit.fill,
-                                        width: 100.0,
-                                        height: 100.0,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      color: Color.fromARGB(255, 234, 234, 234),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(50)),
+                                        child: Image.asset(
+                                          "assets/images/table.jpg",
+                                          fit: BoxFit.fill,
+                                          width: 100.0,
+                                          height: 100.0,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    height: 120,
-                                    // width: MediaQuery.of(context).size.width - 174,
-                                    padding: const EdgeInsets.only(left: 10),
-                                    decoration: const BoxDecoration(
-                                      color: Color.fromARGB(255, 243, 243, 243),
-                                      // border: Border.all(
-                                      //   color: Colors.black,
-                                      // ),
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Row(
+                                    Expanded(
+                                      child: Container(
+                                        // height: 120,
+                                        // width: MediaQuery.of(context).size.width - 174,
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 243, 243, 243),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  Text(
-                                                    "Table #${tables[index].tableId}",
-                                                    style: const TextStyle(
-                                                        fontSize: 22.0,
-                                                        color:
-                                                            Color(0xFF000000),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily:
-                                                            "Merriweather"),
-                                                  ),
-                                                  // SizedBox(height: 10,),
-                                                  SizedBox(
-                                                    width: 110,
-                                                    child: Row(
-                                                      children: [
-                                                        const Expanded(
-                                                          child: Text(
-                                                            "Number of sits: ",
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Text(
+                                                        "Table #${tables[index].tableId}",
+                                                        style: const TextStyle(
+                                                            fontSize: 22.0,
+                                                            color: Color(
+                                                                0xFF000000),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Merriweather"),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          const Expanded(
+                                                            child: Text(
+                                                              "Number of sits: ",
+                                                              softWrap: true,
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      15.0,
+                                                                  color: Color(
+                                                                      0xFF000000),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontFamily:
+                                                                      "Merriweather"),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            "${tables[index].noOfSeats}",
                                                             softWrap: true,
-                                                            style: TextStyle(
-                                                                fontSize: 15.0,
+                                                            style: const TextStyle(
+                                                                fontSize: 16.0,
                                                                 color: Color(
                                                                     0xFF000000),
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w400,
+                                                                        .w600,
                                                                 fontFamily:
                                                                     "Merriweather"),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          "${tables[index].noOfSeats}",
-                                                          softWrap: true,
-                                                          style: const TextStyle(
-                                                              fontSize: 16.0,
-                                                              color: Color(
-                                                                  0xFF000000),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontFamily:
-                                                                  "Merriweather"),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10),
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              TableDetail(
-                                                                table: tables[
-                                                                    index],
-                                                              )));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  color: Colors.blue,
-                                                  size: 30.0,
                                                 ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              "\$${tables[index].price}",
-                                              style: const TextStyle(
-                                                  fontSize: 20.0,
-                                                  color: Color(0xFF000000),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Merriweather"),
+                                              ],
                                             ),
                                             const SizedBox(
-                                              width: 10,
+                                              height: 10,
                                             ),
-                                            Text(
-                                              "VIP",
-                                              style: TextStyle(
-                                                  decoration:
-                                                      tables[index].isVip
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text(
+                                                  "\$${tables[index].price}",
+                                                  style: const TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: Color(0xFF000000),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily:
+                                                          "Merriweather"),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  "VIP",
+                                                  style: TextStyle(
+                                                      decoration: tables[index]
+                                                              .isVip
                                                           ? TextDecoration.none
                                                           : TextDecoration
                                                               .lineThrough,
-                                                  fontSize: 16.0,
-                                                  color: Colors.red,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Merriweather"),
-                                            ),
-                                            const SizedBox(
-                                              width: 7,
-                                            ),
-                                            Text(
-                                              !tables[index].isBooked
-                                                  ? "Available"
-                                                  : "Unavailable",
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: tables[index].isBooked
-                                                      ? Colors.red
-                                                      : Colors.green,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Merriweather"),
+                                                      fontSize: 16.0,
+                                                      color: Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily:
+                                                          "Merriweather"),
+                                                ),
+                                                const SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Text(
+                                                  !tables[index].isBooked
+                                                      ? "Available"
+                                                      : "Unavailable",
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      color:
+                                                          tables[index].isBooked
+                                                              ? Colors.red
+                                                              : Colors.green,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily:
+                                                          "Merriweather"),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           });

@@ -207,14 +207,17 @@ class _MenuDetailState extends State<MenuDetail> {
             ),
           );
         },
-        label: const Text('Add Inventory'),
-        icon: const Icon(Icons.add),
+        label: const Text(
+          'Add Inventory',
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: const Icon(Icons.add, color: Colors.white),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.lightBlue,
         elevation: 0,
         title: const Text(
-          "Order Supreme | Restaurant",
+          "Add Menu",
           style: TextStyle(
             color: Colors.white,
           ),
@@ -224,7 +227,10 @@ class _MenuDetailState extends State<MenuDetail> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => MenuList()));
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -236,7 +242,7 @@ class _MenuDetailState extends State<MenuDetail> {
               Text(
                 "Menu > ${_dishNameController.text}",
                 style: const TextStyle(
-                    fontSize: 25.0,
+                    fontSize: 22.0,
                     color: Color(0xFF000000),
                     fontWeight: FontWeight.w300,
                     fontFamily: "Merriweather"),
@@ -248,26 +254,26 @@ class _MenuDetailState extends State<MenuDetail> {
                 icon: const Icon(
                   Icons.delete,
                   color: Colors.red,
-                  size: 37.0,
+                  size: 35.0,
                 ),
               )
             ],
           ),
           const Divider(
-            color: Colors.black87,
+            color: Color.fromARGB(221, 124, 124, 124),
           ),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(20),
             width: MediaQuery.of(context).size.width - 20,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 231, 231, 231),
+              color: Color.fromARGB(255, 243, 243, 243),
               boxShadow: List.filled(
                 3,
                 const BoxShadow(
                   blurRadius: 4,
                   blurStyle: BlurStyle.outer,
-                  color: Colors.black12,
+                  color: Color.fromARGB(31, 176, 176, 176),
                 ),
               ),
               borderRadius: BorderRadius.circular(10),
@@ -279,27 +285,6 @@ class _MenuDetailState extends State<MenuDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        color: Color.fromARGB(255, 240, 240, 240),
-                        padding: const EdgeInsets.all(2),
-                        child: GestureDetector(
-                          onTap: () {
-                            pickImage(ImageSource.gallery);
-                          },
-                          child: Container(
-                            width: 100.0,
-                            height: 100.0,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: image == null
-                                  ? AssetImage('assets/images/gallery.png')
-                                      as ImageProvider
-                                  : FileImage(File(image!.path)),
-                            )),
-                          ),
-                        ),
-                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -312,13 +297,14 @@ class _MenuDetailState extends State<MenuDetail> {
                             ),
                             Container(
                                 color: Colors.white,
-                                width: 190,
+                                // width: 190,
                                 child: TextFormField(
                                   controller: _dishNameController,
                                   textAlignVertical: TextAlignVertical.center,
                                   decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 10),
                                       hintText:
                                           '${_dishNameController.text == "" ? "Dish name" : _dishNameController.text}',
                                       border: OutlineInputBorder()),
@@ -327,32 +313,96 @@ class _MenuDetailState extends State<MenuDetail> {
                               height: 5,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                    color: Colors.white,
-                                    width: 80,
-                                    child: TextFormField(
-                                      controller: _priceController,
-                                      textAlignVertical:
-                                          TextAlignVertical.center,
-                                      decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 5, horizontal: 10),
-                                          hintText:
-                                              '${_priceController.text == "" ? "\$0.0" : _priceController.text}',
-                                          border: OutlineInputBorder()),
-                                    )),
-                                const SizedBox(
-                                  width: 4,
+                                Expanded(
+                                  child: Container(
+                                      color: Colors.white,
+                                      // width: 190,
+                                      child: TextFormField(
+                                        controller: _dishNameController,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
+                                        decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: 5,
+                                                    horizontal: 10),
+                                            hintText:
+                                                '${_dishNameController.text == "" ? "Dish Catagory" : _dishNameController.text}',
+                                            border: OutlineInputBorder()),
+                                      )),
                                 ),
-                                const Text('Special'),
-                                Checkbox(
-                                    value: _isSpecial,
-                                    onChanged: ((value) => setState(() {
-                                          _isSpecial = value!;
-                                        })))
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    pickImage(ImageSource.gallery);
+                                  },
+                                  child: Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                      fit: BoxFit.contain,
+                                      image: image == null
+                                          ? AssetImage(
+                                                  'assets/images/gallery.png')
+                                              as ImageProvider
+                                          : FileImage(File(image!.path)),
+                                    )),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
                               ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              // width: 190,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                        color: Colors.white,
+                                        // width: 90,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          controller: _priceController,
+                                          textAlignVertical:
+                                              TextAlignVertical.center,
+                                          decoration: InputDecoration(
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5,
+                                                      horizontal: 10),
+                                              hintText:
+                                                  '${_priceController.text == "" ? "\$0.0" : _priceController.text}',
+                                              border: OutlineInputBorder()),
+                                        )),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        const Text('Special'),
+                                        Checkbox(
+                                            value: _isSpecial,
+                                            onChanged: ((value) => setState(() {
+                                                  _isSpecial = value!;
+                                                })))
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -403,7 +453,10 @@ class _MenuDetailState extends State<MenuDetail> {
                             formSubmitted(dishName, dishDescription, dishPrice,
                                 isSpecial);
                           },
-                          child: const Text('Submit')))
+                          child: const Text(
+                            'Submit',
+                            style: TextStyle(color: Colors.white),
+                          )))
                 ],
               ),
             ),
