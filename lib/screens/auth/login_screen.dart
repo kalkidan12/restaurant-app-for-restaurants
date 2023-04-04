@@ -280,7 +280,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }
                                     }
                                   },
-                                  child: const Text('Login'),
+                                  child: const Text(
+                                    'Login',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
                               TextButton(

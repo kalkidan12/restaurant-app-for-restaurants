@@ -260,21 +260,6 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                                   });
                                 },
                               )),
-
-                          //  TextFormField(
-                          //   keyboardType: TextInputType.phone,
-                          //   controller: phoneController,
-                          //   decoration: const InputDecoration(
-                          //     filled: true,
-                          //     fillColor: Color.fromARGB(255, 235, 235, 235),
-                          //     prefixIcon: Icon(Icons.phone),
-                          //     contentPadding:
-                          //         EdgeInsets.fromLTRB(10, 2, 10, 2),
-                          //     border: InputBorder.none,
-                          //     labelText: 'Phone Number',
-                          //   ),
-                          // ),
-
                           Text(
                             phoneErrMsg,
                             style: const TextStyle(
@@ -360,6 +345,7 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                               },
                               child: const Text(
                                 'Submit',
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
