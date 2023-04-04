@@ -98,7 +98,7 @@ class _InventoryListState extends State<InventoryList> {
                 },
                 icon: const Icon(
                   Icons.add,
-                  color: const Color(0xFF736c6c),
+                  color: Colors.lightBlue,
                   size: 42.0,
                 ),
               )

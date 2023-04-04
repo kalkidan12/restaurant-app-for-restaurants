@@ -81,7 +81,7 @@ class _OrderListState extends State<OrderList> {
                 ),
                 Icon(
                   Icons.sort,
-                  color: const Color(0xFF736c6c),
+                  color: Colors.lightBlue,
                   size: 36.0,
                 ),
               ],

@@ -90,7 +90,7 @@ class _MenuListState extends State<MenuList> {
                 },
                 icon: const Icon(
                   Icons.add,
-                  color: const Color(0xFF736c6c),
+                  color: Colors.lightBlue,
                   size: 42.0,
                 ),
               )

@@ -165,8 +165,12 @@ class _InventoryDetailState extends State<InventoryDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: true,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-            "${widget.inventory.inventoryId == 0 ? 'Add' : 'Edit'} Inventory"),
+          "${widget.inventory.inventoryId == 0 ? 'Add' : 'Edit'} Inventory",
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -176,69 +180,118 @@ class _InventoryDetailState extends State<InventoryDetail> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  initialValue: inventoryName,
-                  decoration:
-                      const InputDecoration(labelText: 'Inventory Name'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an inventory name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    inventoryName = value!;
-                  },
+                const SizedBox(
+                  height: 20,
                 ),
-                TextFormField(
-                  initialValue: quantity.toString(),
-                  decoration: const InputDecoration(labelText: 'Quantity'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a quantity';
-                    }
-                    if (int.tryParse(value) == null) {
-                      return 'Please enter a valid number';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    quantity =
-                        int.tryParse(value!) != null ? int.parse(value) : 0;
-                  },
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(179, 227, 227, 227),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextFormField(
+                    initialValue: inventoryName,
+                    decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                        border: InputBorder.none,
+                        labelText: 'Inventory Name'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an inventory name';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      inventoryName = value!;
+                    },
+                  ),
                 ),
-                TextFormField(
-                  initialValue: measurement,
-                  decoration: const InputDecoration(labelText: 'Measurement'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a measurement';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    measurement = value!;
-                  },
+                const SizedBox(
+                  height: 15,
                 ),
-                TextFormField(
-                  initialValue: noticeIfBelow.toString(),
-                  decoration:
-                      const InputDecoration(labelText: 'Notice If Below'),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a notice if below value';
-                    }
-                    if (int.tryParse(value) == null) {
-                      return 'Please enter a notice if below value';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    noticeIfBelow =
-                        int.tryParse(value!) != null ? int.parse(value) : 0;
-                  },
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(179, 227, 227, 227),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextFormField(
+                    initialValue: quantity.toString(),
+                    decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                        border: InputBorder.none,
+                        labelText: 'Quantity'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a quantity';
+                      }
+                      if (int.tryParse(value) == null) {
+                        return 'Please enter a valid number';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      quantity =
+                          int.tryParse(value!) != null ? int.parse(value) : 0;
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(179, 227, 227, 227),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextFormField(
+                    initialValue: measurement,
+                    decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                        border: InputBorder.none,
+                        labelText: 'Measurement'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a measurement';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      measurement = value!;
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(179, 227, 227, 227),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextFormField(
+                    initialValue: noticeIfBelow.toString(),
+                    decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                        border: InputBorder.none,
+                        labelText: 'Notice If Below'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a notice if below value';
+                      }
+                      if (int.tryParse(value) == null) {
+                        return 'Please enter a notice if below value';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      noticeIfBelow =
+                          int.tryParse(value!) != null ? int.parse(value) : 0;
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -248,6 +301,7 @@ class _InventoryDetailState extends State<InventoryDetail> {
                       child: Text(
                         inventoryId == 0 ? 'Add' : 'Edit',
                         style: const TextStyle(
+                            color: Colors.white,
                             fontSize: 16.0,
                             fontWeight: FontWeight.w600,
                             fontFamily: "Merriweather"),
