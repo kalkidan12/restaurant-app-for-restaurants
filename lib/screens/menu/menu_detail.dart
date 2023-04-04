@@ -240,7 +240,7 @@ class _MenuDetailState extends State<MenuDetail> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Menu > ${_dishNameController.text}",
+                "Menu > ${_dishNameController.text == '' ? 'Add New Menu' : _dishNameController.text}",
                 style: const TextStyle(
                     fontSize: 22.0,
                     color: Color(0xFF000000),
@@ -248,15 +248,16 @@ class _MenuDetailState extends State<MenuDetail> {
                     fontFamily: "Merriweather"),
               ),
               IconButton(
-                onPressed: () {
-                  deleteMenuItem();
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                  size: 35.0,
-                ),
-              )
+                  onPressed: () {
+                    _dishNameController.text == '' ? null : deleteMenuItem();
+                  },
+                  icon: Icon(
+                    Icons.delete_forever,
+                    color: _dishNameController.text == ''
+                        ? Colors.grey
+                        : Colors.red,
+                    size: 35.0,
+                  ))
             ],
           ),
           const Divider(

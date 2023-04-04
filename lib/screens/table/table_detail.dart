@@ -253,7 +253,7 @@ class _TableDetailState extends State<TableDetail> {
               Text(
                 "Table > ${tableId != 0 ? 'Table $tableId' : 'Create new table'}",
                 style: const TextStyle(
-                    fontSize: 25.0,
+                    fontSize: 22.0,
                     color: Color(0xFF000000),
                     fontWeight: FontWeight.w300,
                     fontFamily: "Merriweather"),
@@ -263,7 +263,7 @@ class _TableDetailState extends State<TableDetail> {
                 icon: Icon(
                   tableId != 0 ? Icons.delete : Icons.delete_forever,
                   color: tableId != 0 ? Colors.red : Colors.grey,
-                  size: 37.0,
+                  size: 35.0,
                 ),
               )
             ],
