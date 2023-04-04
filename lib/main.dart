@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:restaurantapp/screens/auth/continue_register_screen.dart';
 import 'package:restaurantapp/screens/auth/login_screen.dart';
 
 void main() {

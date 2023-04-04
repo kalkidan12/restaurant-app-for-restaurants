@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:restaurantapp/api/config.dart';
 import 'package:restaurantapp/api/models/user_model.dart';
@@ -112,6 +113,8 @@ class _ContinueRegisterState extends State<ContinueRegister> {
     }
   }
 
+  String initialCountry = 'DE';
+  PhoneNumber number = PhoneNumber(isoCode: 'DE');
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -121,27 +124,24 @@ class _ContinueRegisterState extends State<ContinueRegister> {
         width: width,
         height: height,
         child: Scaffold(
-          backgroundColor: Color.fromARGB(255, 235, 235, 235),
+          backgroundColor: const Color.fromARGB(255, 235, 235, 235),
           resizeToAvoidBottomInset: false, //new line
 
-          body: Stack(
-            children: [
-              Container(
-                height: height / 2 - 50,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/login.jpg"),
-                    fit: BoxFit.cover,
-                    opacity: 0.7,
-                  ),
+          body: Container(
+              height: height,
+              width: width,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/login.jpg"),
+                  fit: BoxFit.cover,
+                  opacity: 0.8,
                 ),
-                child: null /* add child content here */,
               ),
-              Center(
+              child: Center(
                 child: CustomContainer(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   width: width - 50,
-                  height: 400,
+                  height: 320,
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.grey),
@@ -151,20 +151,33 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Continue registration',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                          Container(
+                            decoration: const BoxDecoration(),
+                            padding: const EdgeInsets.only(top: 1, bottom: 15),
+                            child: const Text(
+                              'Continue registration',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
                           ),
                           Container(
-                            margin: const EdgeInsetsDirectional.only(top: 20),
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: TextField(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color(0xffeeeeee),
+                                      blurRadius: 10,
+                                      offset: Offset(0, 4))
+                                ]),
+                            child: TextFormField(
                               controller: nameController,
                               decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 235, 235, 235),
+                                prefixIcon: Icon(Icons.person),
                                 contentPadding:
                                     EdgeInsets.fromLTRB(10, 2, 10, 2),
-                                border: OutlineInputBorder(),
+                                border: InputBorder.none,
                                 labelText: 'Restaurant Name',
                               ),
                             ),
@@ -179,14 +192,24 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: TextField(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color(0xffeeeeee),
+                                      blurRadius: 10,
+                                      offset: Offset(0, 4))
+                                ]),
+                            child: TextFormField(
                               keyboardType: TextInputType.streetAddress,
                               controller: locationController,
                               decoration: const InputDecoration(
+                                filled: true,
+                                fillColor: Color.fromARGB(255, 235, 235, 235),
+                                prefixIcon: Icon(Icons.location_on),
                                 contentPadding:
                                     EdgeInsets.fromLTRB(10, 2, 10, 2),
-                                border: OutlineInputBorder(),
+                                border: InputBorder.none,
                                 labelText: 'Location',
                               ),
                             ),
@@ -201,18 +224,57 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: TextField(
-                              keyboardType: TextInputType.phone,
-                              controller: phoneController,
-                              decoration: const InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(10, 2, 10, 2),
-                                border: OutlineInputBorder(),
-                                labelText: 'Phone number',
-                              ),
-                            ),
-                          ),
+                              decoration: const BoxDecoration(
+                                  color: Color.fromARGB(255, 235, 235, 235),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Color(0xffeeeeee),
+                                        blurRadius: 10,
+                                        offset: Offset(0, 4))
+                                  ]),
+                              child: InternationalPhoneNumberInput(
+                                autoFocus: false,
+                                onInputChanged: (PhoneNumber number) {
+                                  setState(() {
+                                    this.number = number;
+                                  });
+                                },
+                                errorMessage: 'Invalid phone number',
+                                onInputValidated: (bool value) {},
+                                selectorConfig: const SelectorConfig(
+                                  selectorType:
+                                      PhoneInputSelectorType.BOTTOM_SHEET,
+                                ),
+                                ignoreBlank: false,
+                                autoValidateMode: AutovalidateMode.disabled,
+                                selectorTextStyle:
+                                    const TextStyle(color: Colors.black),
+                                initialValue: null,
+                                textFieldController: phoneController,
+                                formatInput: true,
+                                keyboardType: TextInputType.phone,
+                                inputBorder: InputBorder.none,
+                                onSaved: (PhoneNumber number) {
+                                  setState(() {
+                                    this.number = number;
+                                  });
+                                },
+                              )),
+
+                          //  TextFormField(
+                          //   keyboardType: TextInputType.phone,
+                          //   controller: phoneController,
+                          //   decoration: const InputDecoration(
+                          //     filled: true,
+                          //     fillColor: Color.fromARGB(255, 235, 235, 235),
+                          //     prefixIcon: Icon(Icons.phone),
+                          //     contentPadding:
+                          //         EdgeInsets.fromLTRB(10, 2, 10, 2),
+                          //     border: InputBorder.none,
+                          //     labelText: 'Phone Number',
+                          //   ),
+                          // ),
+
                           Text(
                             phoneErrMsg,
                             style: const TextStyle(
@@ -223,7 +285,8 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            margin: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                            width: 135,
                             height: 35,
                             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                             child: ElevatedButton(
@@ -231,7 +294,7 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                                 if (_formKey.currentState!.validate()) {
                                   final name = nameController.text;
                                   final location = locationController.text;
-                                  final phone = phoneController.text;
+                                  final phone = number.phoneNumber;
 
                                   if (name == '') {
                                     setState(() {
@@ -303,9 +366,7 @@ class _ContinueRegisterState extends State<ContinueRegister> {
                         ],
                       )),
                 ),
-              )
-            ],
-          ),
+              )),
         ));
   }
 }
