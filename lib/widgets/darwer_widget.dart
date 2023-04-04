@@ -49,6 +49,10 @@ class DrawerWidget extends StatelessWidget {
                   context, MaterialPageRoute(builder: (context) => MenuList()));
             },
           ),
+          const Divider(
+            height: 1,
+            color: Color.fromARGB(255, 2, 148, 197),
+          ),
           ListTile(
             leading: const Icon(Icons.table_bar,
                 size: 30, color: Color.fromARGB(255, 1, 128, 187)),
@@ -60,6 +64,10 @@ class DrawerWidget extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => TableList()));
             },
+          ),
+          const Divider(
+            height: 1,
+            color: Color.fromARGB(255, 2, 148, 197),
           ),
           ListTile(
             leading: Icon(Icons.bakery_dining_sharp,
@@ -73,6 +81,10 @@ class DrawerWidget extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => OrderList()));
             },
           ),
+          const Divider(
+            height: 1,
+            color: Color.fromARGB(255, 2, 148, 197),
+          ),
           ListTile(
             leading: Icon(Icons.inventory,
                 size: 30, color: Color.fromARGB(255, 1, 128, 187)),
@@ -85,6 +97,10 @@ class DrawerWidget extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => InventoryList()));
             },
           ),
+          const Divider(
+            height: 1,
+            color: Color.fromARGB(255, 2, 148, 197),
+          ),
           ListTile(
             leading: Icon(Icons.payment,
                 size: 30, color: Color.fromARGB(255, 1, 128, 187)),
@@ -95,6 +111,10 @@ class DrawerWidget extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
+          ),
+          const Divider(
+            height: 1,
+            color: Color.fromARGB(255, 2, 148, 197),
           ),
           ListTile(
             leading: Icon(Icons.logout,
